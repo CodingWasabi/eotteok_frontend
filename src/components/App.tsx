@@ -1,6 +1,8 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 
+import Router from '@/router';
+
 import { GlobalStyle } from '@/styles/GlobalStyle';
 import { Theme } from '@/styles/Theme';
 import '@/styles/fonts.css';
@@ -10,7 +12,7 @@ const App = () => {
     <>
       <GlobalStyle />
       <ThemeProvider theme={Theme}>
-        <div>Junseo's project setting</div>
+        <Router />
       </ThemeProvider>
     </>
   );
