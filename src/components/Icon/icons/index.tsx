@@ -11,3 +11,8 @@ export { default as Emotion2 } from './Emotion2';
 export { default as Emotion3 } from './Emotion3';
 export { default as Emotion4 } from './Emotion4';
 export { default as Emotion5 } from './Emotion5';
+
+export { default as Pencil } from './Pencil';
+export { default as Share } from './Share';
+export { default as Arrow } from './Arrow';
+export { default as Send } from './Send';

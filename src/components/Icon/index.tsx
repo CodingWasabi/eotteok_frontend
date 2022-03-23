@@ -11,6 +11,7 @@ interface IIconProps {
   width?: number;
   height?: number;
   rotate?: number;
+  opacity?: number;
 }
 
 const StyledIconWrapper = styled.div<{ width: number; height: number; rotate: number }>`
@@ -29,11 +30,11 @@ const StyledIconWrapper = styled.div<{ width: number; height: number; rotate: nu
     }}
 `;
 
-const Icon: React.FC<IIconProps> = ({ width, height, icon, rotate = 0, ...props }) => {
+const Icon: React.FC<IIconProps> = ({ width, height, icon, rotate = 0, color, opacity, ...props }) => {
   const IconComponent = icons[icon];
 
   return (
-    <StyledIconWrapper {...props} rotate={rotate} width={width || 50} height={height || 50} color={props.color}>
+    <StyledIconWrapper {...props} rotate={rotate} width={width || 24} height={height || 24}>
       <IconComponent
         role="presentation"
         aria-hidden="true"
@@ -43,6 +44,8 @@ const Icon: React.FC<IIconProps> = ({ width, height, icon, rotate = 0, ...props 
         }}
         width="100%"
         height="100%"
+        opacity={opacity ?? 1}
+        color={color}
       />
     </StyledIconWrapper>
   );
