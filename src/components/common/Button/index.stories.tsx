@@ -22,14 +22,14 @@ export const Next = Template.bind({});
 Next.args = {
   variant: 'next',
   children: '다음',
-  isClicked: false,
+  isFilled: false,
 };
 
 export const Add = Template.bind({});
 Add.args = {
   variant: 'add',
   children: '등록하기',
-  isClicked: false,
+  isFilled: false,
 };
 
 export const Edit = Template.bind({});
@@ -41,6 +41,12 @@ Edit.args = {
       시험정보 수정해 보시지
     </>
   ),
+};
+
+export const Start = Template.bind({});
+Start.args = {
+  variant: 'start',
+  children: '시작하기',
 };
 
 export const M_2 = Template.bind({});

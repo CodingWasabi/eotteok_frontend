@@ -5,6 +5,8 @@ import { IButtonProps } from '@/components/common/Button';
 import { Theme } from '@/styles/Theme';
 
 export const Wrapper = styled.button<IButtonProps>`
+  cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -34,7 +36,7 @@ export const Wrapper = styled.button<IButtonProps>`
       width: 151px;
       height: 50px;
 
-      background-color: ${props.isClicked ? Theme.M_2 : Theme.B_5};
+      background-color: ${props.isFilled ? Theme.M_2 : Theme.B_5};
     `}
 
   ${(props) =>
@@ -43,7 +45,7 @@ export const Wrapper = styled.button<IButtonProps>`
       width: 325px;
       height: 45px;
 
-      background-color: ${props.isClicked ? Theme.M_5 : Theme.B_5};
+      background-color: ${props.isFilled ? Theme.M_5 : Theme.B_5};
     `}
 
 
@@ -56,6 +58,16 @@ export const Wrapper = styled.button<IButtonProps>`
       border: 1px solid ${Theme.M_2};
 
       color: ${Theme.M_2};
+    `}
+
+  ${(props) =>
+    props.variant === 'start' &&
+    css`
+      width: 325px;
+      height: 50px;
+
+      border: 1px solid ${Theme.T_1};
+      background-color: ${Theme.B_1};
     `}
 
   ${(props) =>

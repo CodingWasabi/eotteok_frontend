@@ -13,4 +13,6 @@ export const StyledInput = styled.input`
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
 
   text-align: center;
+  font-size: 18px;
+  letter-spacing: 3px;
 `;
