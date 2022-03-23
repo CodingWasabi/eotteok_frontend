@@ -6,6 +6,8 @@ interface IWrapperProps {
 }
 
 export const Wrapper = styled.div<IWrapperProps>`
+  cursor: pointer;
+
   display: flex;
   align-items: center;
 
