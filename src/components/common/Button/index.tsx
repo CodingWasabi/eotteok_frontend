@@ -2,16 +2,13 @@ import React from 'react';
 
 import { Wrapper } from './style';
 
-interface IButtonProps {
-  variant: 'previous' | 'next' | 'add' | 'M_2';
+export interface IButtonProps {
+  variant: 'previous' | 'next' | 'add' | 'edit' | 'M_2' | 'M_4';
+  isClicked?: boolean;
   children: React.ReactNode;
 }
 
-export interface StyledButtonProps extends IButtonProps {
-  isClicked?: boolean;
-}
-
-const Button = ({ variant, isClicked, children }: StyledButtonProps) => {
+const Button = ({ variant, isClicked, children }: IButtonProps) => {
   return (
     <Wrapper variant={variant} isClicked={isClicked}>
       {children}
