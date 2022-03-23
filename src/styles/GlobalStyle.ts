@@ -5,8 +5,8 @@ export const GlobalStyle = createGlobalStyle`
     ${reset}
     body * {
         font-family: NanumAmSeuTeReuDam;
-        letter-spacing: -0.03px;
-        line-height: 1.5;
+        letter-spacing: -0.5px;
+        line-height: 20px;
     }
     * {
     box-sizing: border-box;
