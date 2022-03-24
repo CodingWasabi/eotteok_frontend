@@ -1,23 +1,40 @@
-import React, { Dispatch } from 'react';
+import React from 'react';
 
 import QuestionNumber from '@/components/Survey/QuestionNumber';
 
 import { colorList } from '@/lib/constants';
 
+import useSurvey from '@/hooks/useSurvey';
+
 import { Wrapper, Img } from './style';
 
 export interface IQuestionItemProps {
-  number: number;
-  clickedQuestionNumber: number;
+  selectedNumber: number;
+  questionNumber: number;
   children: React.ReactText;
   onClickItem: () => void;
 }
 
-const QuestionItem = ({ number, clickedQuestionNumber, children, onClickItem }: IQuestionItemProps) => {
+interface IClickedItem {
+  selectedNumber: number;
+  questionNumber: number;
+}
+
+const QuestionItem = ({ selectedNumber, questionNumber, children, onClickItem }: IQuestionItemProps) => {
+  const survey = useSurvey();
+
+  const isClickedItem = ({ selectedNumber, questionNumber }: IClickedItem) => {
+    return selectedNumber === survey.answerList[questionNumber - 1];
+  };
+
   return (
-    <Wrapper isClicked={clickedQuestionNumber === number} backgroundColor={colorList[number - 1]} onClick={onClickItem}>
-      <QuestionNumber backgroundColor={colorList[number - 1]}>{number}</QuestionNumber>
-      <Img src={`images/survey/1/${number}.png`} alt="캐릭터" />
+    <Wrapper
+      isClicked={isClickedItem({ selectedNumber, questionNumber })}
+      backgroundColor={colorList[selectedNumber - 1]}
+      onClick={onClickItem}
+    >
+      <QuestionNumber backgroundColor={colorList[selectedNumber - 1]}>{selectedNumber}</QuestionNumber>
+      <Img src={`images/survey/${questionNumber}/${selectedNumber}.png`} alt="캐릭터" />
       <span>{children}</span>
     </Wrapper>
   );
