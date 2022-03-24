@@ -23,7 +23,7 @@ export const ProgressContents = styled.div<IProgressBarProps>`
   border-radius: 100px;
   background-color: ${Theme.B_3};
 
-  transition: all 1s;
+  transition: all 0.5s;
 `;
 
 export const Img = styled.img`
