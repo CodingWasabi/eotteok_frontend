@@ -25,3 +25,10 @@ export const ContentsWrapper = styled.div`
     margin: 45px 0px;
   }
 `;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 50px;
+`;
