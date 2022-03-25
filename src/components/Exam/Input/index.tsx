@@ -11,7 +11,7 @@ export interface IInputProps {
 
 const Input = ({ value, onChangeInput }: IInputProps) => {
   return (
-    <InputBox>
+    <InputBox isFilled={value ? true : false}>
       <StyledInput value={value} onChange={onChangeInput} placeholder="과목명 입력해보시지 !" />
     </InputBox>
   );
