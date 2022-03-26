@@ -27,6 +27,7 @@ const questionList = [
       '그냥 훈이',
     ],
   },
+  { title: '울라울라 시험정보 ~', question: [] },
 ];
 
 export default questionList;
