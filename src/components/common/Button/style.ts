@@ -89,6 +89,6 @@ export const Wrapper = styled.button<IButtonProps>`
 
       background-color: ${Theme.M_4};
 
-      color: ${Theme.B_1};
+      color: ${Theme.T_1};
     `}
 `;
