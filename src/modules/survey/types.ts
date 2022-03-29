@@ -5,16 +5,54 @@ export type SurveyAction = ActionType<typeof actions>;
 
 export type AnswerListType = Array<number>;
 
-export type SubjectInfoType = {
-  subject: string;
-  date: string;
-  time: string;
-  prepareTime: string;
-};
+export type ExamInfoType = {
+  exam: string;
 
-export type SubjectInfoListType = Array<SubjectInfoType>;
+  year: number;
+  month: number;
+  date: number;
+
+  hour: number;
+  minute: number;
+
+  prepareTime: number;
+};
 
 export type SurveyType = {
   answerList: AnswerListType;
-  subjectInfoList: SubjectInfoListType;
+
+  exam: string;
+  examInfoId: number;
+  examInfoList: ExamInfoListType;
+
+  year: number;
+  month: number;
+  date: number;
+
+  hour: number;
+  minute: number;
+
+  prepareTime: number;
+
+  isEdit: boolean;
+
+  isFilledDate: boolean;
+  isFilledTime: boolean;
+  isFilledPrepareTime: boolean;
+};
+
+export type ExamInfoListType = Array<ExamInfoType>;
+
+export type IsFilledType = {
+  target: string;
+  isFilled: boolean;
+};
+
+export type ExamScheduleType = {
+  target: string;
+  value: number;
+};
+
+export type ExamInfoIdType = {
+  examInfoId: number;
 };

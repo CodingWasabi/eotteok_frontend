@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import useNicknameActions from '@/hooks/useNicknameActions';
+import useWarngingExit from '@/hooks/useWarningExit';
+
 import Icon from '@/components/Icon';
 import Text from '@/components/common/Text';
 import Button from '@/components/common/Button';
@@ -14,6 +17,8 @@ import { Body, WarningTextWrapper } from './style';
 const NickNamePage = () => {
   const navigate = useNavigate();
 
+  const { registerNickname } = useNicknameActions();
+
   const [nickname, setNickname] = useState<string>('');
   const [isNicknameDuplicated, setIsNicknameDuplicated] = useState<boolean>(false);
 
@@ -21,7 +26,12 @@ const NickNamePage = () => {
     setNickname(e.target.value);
   };
 
-  const onClickNext = () => navigate('/survey');
+  const onClickNext = () => {
+    registerNickname(nickname);
+    navigate('/survey');
+  };
+
+  useWarngingExit();
 
   return (
     <AppLayout>

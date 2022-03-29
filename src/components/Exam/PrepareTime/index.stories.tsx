@@ -1,14 +1,14 @@
 import React from 'react';
 import { Story } from '@storybook/react';
 
-import DelayedTime, { IDelayedTimeProps } from '.';
+import PrepareTime, { IPrepareTimeProps } from '.';
 
 export default {
-  component: DelayedTime,
-  title: 'Exam/DelayedTime',
+  component: PrepareTime,
+  title: 'Exam/PrepareTime',
 };
 
-const Template: Story<IDelayedTimeProps> = (args: IDelayedTimeProps) => <DelayedTime {...args} />;
+const Template: Story<IPrepareTimeProps> = (args: IPrepareTimeProps) => <PrepareTime {...args} />;
 
 export const Init = Template.bind({});
 Init.args = {
@@ -22,7 +22,7 @@ Selected.args = {
   children: '10시간 이하',
   init: false,
   number: 1,
-  clickedDelayedTimeNumber: 1,
+  prepareTime: 1,
 };
 
 export const NotSelected = Template.bind({});
@@ -30,5 +30,5 @@ NotSelected.args = {
   children: '10시간 이하',
   init: false,
   number: 1,
-  clickedDelayedTimeNumber: 2,
+  prepareTime: 2,
 };

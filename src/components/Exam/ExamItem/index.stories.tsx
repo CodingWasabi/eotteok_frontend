@@ -14,7 +14,7 @@ export const Default = Template.bind({});
 Default.args = {
   children: '인간컴퓨터상호작용',
   isEdit: false,
-  isSelected: true,
+  isSelected: false,
 };
 
 export const EditAndSelected = Template.bind({});
