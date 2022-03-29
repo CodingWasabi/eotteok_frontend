@@ -18,8 +18,10 @@ export const Wrapper = styled.div<IWrapperProps>`
   height: 45px;
 
   border-radius: 12px;
-  background-color: ${({ isSelected }) => (isSelected ? Theme.B_1 : Theme.B_2)};
+  background-color: ${({ isEdit, isSelected }) => (isEdit ? (isSelected ? Theme.B_1 : Theme.B_5) : Theme.B_1)};
   border: ${({ isEdit, isSelected }) => isSelected && isEdit && `2px solid ${Theme.M_2}`};
+
+  font-size: 18px;
 `;
 
 export const IconWrapper = styled.div`
@@ -27,4 +29,11 @@ export const IconWrapper = styled.div`
 
   position: absolute;
   right: 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 24px;
+  height: 24px;
 `;
