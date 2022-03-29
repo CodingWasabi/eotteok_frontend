@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Theme } from '@/styles/Theme';
+
 export const Wrapper = styled.div`
   overflow: hidden;
 
@@ -26,9 +28,23 @@ export const ContentsWrapper = styled.div`
   }
 `;
 
+export const DelayedTimeWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  width: 325px;
+`;
+
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 
   margin-top: 50px;
+`;
+
+export const TextCenterWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+
+  margin: 20px 0 10px 0;
 `;
