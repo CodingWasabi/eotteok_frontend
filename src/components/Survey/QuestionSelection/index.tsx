@@ -103,10 +103,6 @@ const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelection
 
   useEffect(() => {
     setInit(prepareTime === 0);
-
-    if (init) {
-      return;
-    }
     dispatchIsFilled({ target: 'isFilledPrepareTime', isFilled: true });
   }, [prepareTime]);
 
