@@ -8,9 +8,13 @@ import { Theme } from '@/styles/Theme';
 
 import { Wrapper, MonthWrapper, IconWrapper, DayWrapper } from './style';
 
-const Calendar = () => {
+export interface ICalendarProps {
+  isClickedDate: number;
+  setIsClickedDate: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const Calendar = ({ isClickedDate, setIsClickedDate }: ICalendarProps) => {
   const [getMoment, setMoment] = useState<Moment>(moment());
-  const [isClickedDate, setIsClickedDate] = useState<number>(0);
 
   const selectedMonth = Number(getMoment.format('M'));
 
