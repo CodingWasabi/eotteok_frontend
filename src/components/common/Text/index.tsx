@@ -1,18 +1,20 @@
 import React from 'react';
 
+import { Theme } from '@/styles/Theme';
+
 import { Wrapper } from './style';
 
 export interface ITextProps {
-  variant?: 'normal' | 'warning';
   fontSize?: number;
   fontWeight?: number;
   letterSpacing?: number;
+  color?: string;
   children: React.ReactNode;
 }
 
-const Text = ({ variant = 'normal', fontSize = 24, fontWeight = 400, letterSpacing = 3, children }: ITextProps) => {
+const Text = ({ fontSize = 24, fontWeight = 400, letterSpacing = 3, color = Theme.T_1, children }: ITextProps) => {
   return (
-    <Wrapper variant={variant} fontSize={fontSize} fontWeight={fontWeight} letterSpacing={letterSpacing}>
+    <Wrapper fontSize={fontSize} fontWeight={fontWeight} letterSpacing={letterSpacing} color={color}>
       {children}
     </Wrapper>
   );
