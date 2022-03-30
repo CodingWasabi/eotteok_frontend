@@ -12,6 +12,8 @@ import Input from '@/components/Nickname/Input';
 
 import AppLayout from '@/components/common/AppLayout';
 
+import { Theme } from '@/styles/Theme';
+
 import { Body, WarningTextWrapper } from './style';
 
 const NickNamePage = () => {
@@ -41,7 +43,7 @@ const NickNamePage = () => {
         <Input value={nickname} onChangeNickname={onChangeNickname} />
         {isNicknameDuplicated && (
           <WarningTextWrapper isNicknameDuplicated={isNicknameDuplicated}>
-            <Text variant="warning">*중복된 이름이에요!</Text>
+            <Text color={Theme.M_3}>*중복된 이름이에요!</Text>
           </WarningTextWrapper>
         )}
         <Button variant="next" isFilled={nickname ? true : false} onClick={onClickNext}>
