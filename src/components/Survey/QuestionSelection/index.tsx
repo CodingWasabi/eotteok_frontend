@@ -61,6 +61,7 @@ const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelection
 
   const onClickDelayedTime = (number: number) => {
     updateExamScheduleInfo({ target: 'prepareTime', value: number });
+    dispatchIsFilled({ target: 'isFilledPrepareTime', isFilled: true });
   };
 
   const onClickPrev = () => {
@@ -103,11 +104,6 @@ const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelection
 
   useEffect(() => {
     setInit(prepareTime === 0);
-
-    if (init) {
-      return;
-    }
-    dispatchIsFilled({ target: 'isFilledPrepareTime', isFilled: true });
   }, [prepareTime]);
 
   useEffect(() => {
