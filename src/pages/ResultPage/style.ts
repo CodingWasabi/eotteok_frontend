@@ -9,6 +9,10 @@ export const Body = styled.section`
   justify-content: center;
 
   height: 100vh;
+
+  & > :first-child {
+    margin-top: 800px;
+  }
 `;
 
 export const ButtonWrapper = styled.div`
