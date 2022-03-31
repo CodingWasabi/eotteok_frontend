@@ -4,6 +4,8 @@ import Calendar from '@/components/Calendar';
 
 import CommentInput from '@/components/Comment/CommentInput';
 
+import Tendency from '@/components/Tendency';
+
 import AppLayout from '@/components/common/AppLayout';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
@@ -24,6 +26,7 @@ const ResultPage = () => {
 
   return (
     <AppLayout>
+      <Tendency />
       <Body>
         <Calendar isClickedDate={isClickedDate} setIsClickedDate={setIsClickedDate} />
         <CommentInputWrapper hasComments={hasComments}>
