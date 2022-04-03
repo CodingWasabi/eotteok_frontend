@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Theme } from '@/styles/Theme';
+
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,6 +12,7 @@ export const Wrapper = styled.div`
 
   border-radius: 12px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  background-color: ${Theme.B_1};
 
   overflow-y: auto;
 
@@ -35,6 +38,23 @@ export const Container = styled.div`
 
   width: 339px;
   height: 45px;
+`;
+
+export const ExamInfoWrapper = styled.div`
+  width: 275px;
+
+  & > :nth-child(1) {
+    display: inline-block;
+    width: 120px;
+    margin-right: 10px;
+  }
+
+  & > :nth-child(2),
+  & > :nth-child(3) {
+    display: inline-block;
+    width: 40px;
+    margin-right: 10px;
+  }
 `;
 
 export const ColorTag = styled.div<{ backgroundColor: string }>`
