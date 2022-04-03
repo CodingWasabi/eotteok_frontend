@@ -4,12 +4,17 @@ import Text from '@/components/common/Text';
 
 import { Wrapper, TendencyTextWrapper } from './style';
 
-const Tendency = () => {
+export interface ITendencyProps {
+  nickname: string;
+  tendency: number;
+}
+
+const Tendency = ({ nickname, tendency }: ITendencyProps) => {
   return (
     <Wrapper>
       <TendencyTextWrapper>
         <Text fontSize={20} letterSpacing={-0.5}>
-          윤준서 님은
+          {nickname} 님은
         </Text>
         <br />
         <Text fontSize={27} letterSpacing={-0.5}>
