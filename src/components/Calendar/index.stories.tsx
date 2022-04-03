@@ -1,7 +1,9 @@
 import React from 'react';
 import { Story } from '@storybook/react';
 
-import Calendar, { ICalendarProps } from '.';
+import Calendar from '.';
+
+import { ICalendarProps } from '@/types/calendar';
 
 export default {
   component: Calendar,

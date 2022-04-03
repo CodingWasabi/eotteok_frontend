@@ -7,34 +7,11 @@ import CharacterList from '@/components/Calendar/CharacterList';
 
 import Text from '@/components/common/Text';
 
+import { ICalendar, ICalendarProps } from '@/types/calendar';
+
 import { Theme } from '@/styles/Theme';
 
 import { Wrapper, MonthWrapper, IconWrapper, DayWrapper, FlexCenterWrapper, ClickedDateWrapper } from './style';
-
-interface IDailyToDos {
-  name: string;
-  hour: number;
-  d_day: number;
-  color: number;
-}
-
-interface IMonthlyToDos {
-  date: string;
-  commentCount: number;
-  toDos: Array<IDailyToDos>;
-}
-
-interface ICalendar {
-  month: number;
-  commentCount: number;
-  toDos: Array<IMonthlyToDos>;
-}
-
-export interface ICalendarProps {
-  calendar: Array<ICalendar>;
-  clickedDate: number;
-  setClickedDate: React.Dispatch<React.SetStateAction<number>>;
-}
 
 const Calendar = ({ calendar, clickedDate, setClickedDate }: ICalendarProps) => {
   const [getMoment, setMoment] = useState<Moment>(moment());
