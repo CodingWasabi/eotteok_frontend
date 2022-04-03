@@ -1,19 +1,42 @@
 import React, { useState } from 'react';
 import moment, { Moment } from 'moment';
 
-import Text from '@/components/common/Text';
 import Icon from '@/components/Icon';
+
+import CharacterList from '@/components/Calendar/CharacterList';
+
+import Text from '@/components/common/Text';
 
 import { Theme } from '@/styles/Theme';
 
-import { Wrapper, MonthWrapper, IconWrapper, DayWrapper } from './style';
+import { Wrapper, MonthWrapper, IconWrapper, DayWrapper, FlexCenterWrapper, ClickedDateWrapper } from './style';
 
-export interface ICalendarProps {
-  isClickedDate: number;
-  setIsClickedDate: React.Dispatch<React.SetStateAction<number>>;
+interface IDailyToDos {
+  name: string;
+  hour: number;
+  d_day: number;
+  color: number;
 }
 
-const Calendar = ({ isClickedDate, setIsClickedDate }: ICalendarProps) => {
+interface IMonthlyToDos {
+  date: string;
+  commentCount: number;
+  toDos: Array<IDailyToDos>;
+}
+
+interface ICalendar {
+  month: number;
+  commentCount: number;
+  toDos: Array<IMonthlyToDos>;
+}
+
+export interface ICalendarProps {
+  calendar: Array<ICalendar>;
+  clickedDate: number;
+  setClickedDate: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const Calendar = ({ calendar, clickedDate, setClickedDate }: ICalendarProps) => {
   const [getMoment, setMoment] = useState<Moment>(moment());
 
   const selectedMonth = Number(getMoment.format('M'));
@@ -28,22 +51,29 @@ const Calendar = ({ isClickedDate, setIsClickedDate }: ICalendarProps) => {
   };
 
   const onClickDate = (date: number) => {
-    setIsClickedDate(date);
+    if (clickedDate === date) {
+      setClickedDate(0);
+      return;
+    }
+    setClickedDate(date);
   };
 
   const onClickPrev = () => {
     setMoment(getMoment.clone().subtract(1, 'month'));
-    setIsClickedDate(0);
+    setClickedDate(0);
   };
 
   const onClickNext = () => {
     setMoment(getMoment.clone().add(1, 'month'));
-    setIsClickedDate(0);
+    setClickedDate(0);
   };
+
+  const isCurrentMonth = (currentMonth: number, selectedMonth: number) => currentMonth === selectedMonth;
 
   const calendarArr = () => {
     const result = [];
     let week = firstWeek;
+    let calendarInfo: ICalendar;
 
     for (week; week <= lastWeek; week++) {
       result.push(
@@ -55,14 +85,38 @@ const Calendar = ({ isClickedDate, setIsClickedDate }: ICalendarProps) => {
               const date = Number(day.format('D'));
               const month = Number(day.format('M'));
 
+              let toDoYear;
+              let toDoMonth;
+              let toDoDate;
+              let toDoCommentCount = 0;
+
+              for (let i = 0; i < calendar.length; i++) {
+                if (selectedMonth === calendar[i].month && index === 3) {
+                  calendarInfo = calendar[i];
+                }
+              }
+
+              // 시험이 있는 날짜
+              for (let i = 0; i < calendarInfo?.toDos.length; i++) {
+                [toDoYear, toDoMonth, toDoDate] = calendarInfo.toDos[i].date.split('-');
+                toDoCommentCount = calendarInfo.toDos[i].commentCount;
+
+                if (Number(toDoDate) === date) {
+                  break;
+                }
+              }
+
               return (
                 <DayWrapper
                   key={index}
                   isWeekend={isWeekend(day)}
-                  isClicked={month === selectedMonth && isClickedDate === date}
+                  isClicked={month === selectedMonth && clickedDate === date}
                   onClick={() => month === selectedMonth && onClickDate(date)}
                 >
-                  <span>{Number(day.format('M')) === selectedMonth && date}</span>
+                  <span>{isCurrentMonth(Number(day.format('M')), selectedMonth) && date}</span>
+                  {Number(isCurrentMonth(Number(day.format('M')), selectedMonth) && toDoDate) === date && (
+                    <CharacterList commentCount={toDoCommentCount > 5 ? 5 : toDoCommentCount} />
+                  )}
                 </DayWrapper>
               );
             })}
@@ -87,6 +141,11 @@ const Calendar = ({ isClickedDate, setIsClickedDate }: ICalendarProps) => {
       <table>
         <tbody>{calendarArr()}</tbody>
       </table>
+      {clickedDate > 0 && (
+        <FlexCenterWrapper>
+          <ClickedDateWrapper>{clickedDate} 일</ClickedDateWrapper>
+        </FlexCenterWrapper>
+      )}
     </Wrapper>
   );
 };
