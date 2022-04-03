@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 
+import { myCalenderResult } from '@/mock';
+
 import Calendar from '@/components/Calendar';
 
 import CommentInput from '@/components/Comment/CommentInput';
 
 import Tendency from '@/components/Tendency';
+
+import ExamList from '@/components/Exam/ExamList';
 
 import AppLayout from '@/components/common/AppLayout';
 import Button from '@/components/common/Button';
@@ -13,12 +17,12 @@ import Icon from '@/components/Icon';
 
 import { Theme } from '@/styles/Theme';
 
-import { Body, ButtonWrapper, ResetText, CommentInputWrapper } from './style';
+import { ExamListWrapper, Body, ButtonWrapper, ResetText, CommentInputWrapper } from './style';
 
 const ResultPage = () => {
-  const [isClickedDate, setIsClickedDate] = useState<number>(0);
+  const [clickedDate, setClickedDate] = useState<number>(0);
 
-  const hasComments = true;
+  const hasComments = myCalenderResult.commentCount > 0;
 
   const onClickRegisterComment = () => {
     alert('댓글 등록');
@@ -26,9 +30,12 @@ const ResultPage = () => {
 
   return (
     <AppLayout>
-      <Tendency />
+      <Tendency nickname={myCalenderResult.nickname} tendency={myCalenderResult.tendency} />
       <Body>
-        <Calendar isClickedDate={isClickedDate} setIsClickedDate={setIsClickedDate} />
+        <ExamListWrapper>
+          <ExamList exams={myCalenderResult.exams} />
+        </ExamListWrapper>
+        <Calendar calendar={myCalenderResult.calendar} clickedDate={clickedDate} setClickedDate={setClickedDate} />
         <CommentInputWrapper hasComments={hasComments}>
           {!hasComments && (
             <Text fontSize={16} letterSpacing={-0.5}>

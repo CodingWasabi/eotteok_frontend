@@ -2,6 +2,11 @@ import styled from 'styled-components';
 
 import { Theme } from '@/styles/Theme';
 
+export const ExamListWrapper = styled.div`
+  position: relative;
+  z-index: 10;
+`;
+
 export const Body = styled.section`
   display: flex;
   flex-direction: column;
@@ -11,7 +16,7 @@ export const Body = styled.section`
   height: 100vh;
 
   & > :first-child {
-    margin-top: 800px;
+    margin: 780px 0 30px 0;
   }
 `;
 
