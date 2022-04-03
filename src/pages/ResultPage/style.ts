@@ -45,6 +45,7 @@ export const CommentInputWrapper = styled.div<{ hasComments: boolean }>`
   align-items: center;
 
   background-color: ${Theme.B_1};
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
 
   margin: 17px 0 30px 0;
   padding: 12px 0;
@@ -54,4 +55,20 @@ export const CommentInputWrapper = styled.div<{ hasComments: boolean }>`
   }
 
   width: 100%;
+`;
+
+export const DailyExamItemListWrapper = styled.div`
+  margin-bottom: 26px;
+
+  & > div:not(:last-child) {
+    margin-bottom: 12px;
+  }
+`;
+
+export const CommentItemListmWrapper = styled.div`
+  margin-bottom: 22px;
+
+  & > div:not(:last-child) {
+    margin-bottom: 14px;
+  }
 `;
