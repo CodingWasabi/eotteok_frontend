@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import setTime from '@/lib/util/setTime';
 import { colorList } from '@/lib/constants';
@@ -29,6 +30,12 @@ export interface IExamListProps {
 }
 
 const ExamList = ({ exams }: IExamListProps) => {
+  const navigate = useNavigate();
+
+  const onClickPencilIcon = () => {
+    navigate('/survey/edit/1');
+  };
+
   return (
     <Wrapper>
       <Text fontSize={20} letterSpacing={-0.5}>
@@ -52,7 +59,7 @@ const ExamList = ({ exams }: IExamListProps) => {
                 D-{data.d_day}
               </Text>
             </ExamInfoWrapper>
-            <IconWrapper>
+            <IconWrapper onClick={onClickPencilIcon}>
               <Icon icon="Pencil" color={Theme.T_1} width={14} height={14} />
             </IconWrapper>
           </Container>
