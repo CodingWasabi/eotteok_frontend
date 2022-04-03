@@ -1,7 +1,7 @@
 export const myCalenderResult = {
   nickname: 'jun5e00',
   tendency: 5,
-  commentCount: 32, // 월 기준 댓글 개수
+  commentCount: 1, // 월 기준 댓글 개수
   exams: [
     {
       name: '가나다라마바사아',
@@ -106,7 +106,7 @@ export const myCalenderResult = {
           commentCount: 4, // 해당 날짜 댓글 개수
           toDos: [
             {
-              name: '데이터 분석 및 활용',
+              name: '데이터 분석 및 활용1',
               hour: 2,
               d_day: 3, // 해당 날짜 기준의 d-day
               color: 1,
@@ -124,7 +124,7 @@ export const myCalenderResult = {
           commentCount: 2,
           toDos: [
             {
-              name: '데이터 분석 및 활용',
+              name: '데이터 분석 및 활용2',
               hour: 2,
               d_day: 2,
               color: 1,
@@ -141,3 +141,16 @@ export const myCalenderResult = {
     },
   ],
 };
+
+export const comments = [
+  {
+    profileImageNumber: 1,
+    nickname: 'nickname1',
+    body: 'body1',
+  },
+  {
+    profileImageNumber: 2,
+    nickname: 'nickname2',
+    body: 'body2',
+  },
+];
