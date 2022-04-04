@@ -42,7 +42,7 @@ const CharacterSelection = ({ hasComments }: ICharacterSelectionProps) => {
         <RefWrapper>
           <CharacterListWrapper ref={characterListRef}>
             {arr.map((_, index) => (
-              <Img src={`images/comment/${index + 1}.png`} onClick={() => onClickCharacter(index + 1)} />
+              <Img key={index} src={`images/comment/${index + 1}.png`} onClick={() => onClickCharacter(index + 1)} />
             ))}
           </CharacterListWrapper>
         </RefWrapper>
