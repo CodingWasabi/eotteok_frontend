@@ -1,7 +1,7 @@
 export const myCalenderResult = {
   nickname: 'jun5e00',
   tendency: 5,
-  commentCount: 1, // 월 기준 댓글 개수
+  commentCount: 5, // 월 기준 댓글 개수
   exams: [
     {
       name: '가나다라마바사아',
@@ -152,5 +152,28 @@ export const comments = [
     profileImageNumber: 2,
     nickname: 'nickname2',
     body: 'body2',
+  },
+];
+
+export const randomComments = [
+  {
+    profileImageNumber: 1,
+    nickname: 'nickname1',
+    body: 'random body1',
+  },
+  {
+    profileImageNumber: 2,
+    nickname: 'nickname2',
+    body: 'random body2',
+  },
+  {
+    profileImageNumber: 3,
+    nickname: 'nickname3',
+    body: 'random body3',
+  },
+  {
+    profileImageNumber: 1,
+    nickname: 'nickname4',
+    body: 'random body3',
   },
 ];
