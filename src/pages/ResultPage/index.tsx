@@ -72,8 +72,9 @@ const ResultPage = () => {
             <CommentInputWrapper hasComments={hasComments}>
               {clickedExamList && (
                 <DailyExamItemListWrapper>
-                  {clickedExamList.map((info) => (
+                  {clickedExamList.map((info, index) => (
                     <DailyExamItem
+                      key={index}
                       name={info.name}
                       d_day={info.d_day}
                       color={info.color}
@@ -85,8 +86,8 @@ const ResultPage = () => {
               )}
               {comments && (
                 <CommentItemListmWrapper>
-                  {comments.map((info) => (
-                    <CommentItem characterNumber={info.profileImageNumber} nickname={info.nickname}>
+                  {comments.map((info, index) => (
+                    <CommentItem key={index} characterNumber={info.profileImageNumber} nickname={info.nickname}>
                       {info.body}
                     </CommentItem>
                   ))}
