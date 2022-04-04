@@ -16,7 +16,7 @@ const AppLayout = ({ children }: IAppLayoutProps) => {
 
   return (
     <Wrapper>
-      <Background src={`images/background/${isOnBoardingPage ? 1 : 2}.png`} />
+      <Background src={`/images/background/${isOnBoardingPage ? 1 : 2}.png`} />
       {!isOnBoardingPage && (
         <Header>
           <Icon icon="Logo" width={122} height={42} />
