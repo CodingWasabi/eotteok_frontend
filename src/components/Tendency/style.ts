@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { Theme } from '@/styles/Theme';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<{ backgroundColor: string }>`
   position: absolute;
   top: 0;
   left: 0;
@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
 
   z-index: -1;
 
-  background-color: ${Theme.M_5};
+  background-color: ${({ backgroundColor }) => backgroundColor};
 
   border-radius: 0 0 30px 30px;
 
