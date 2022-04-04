@@ -13,10 +13,10 @@ export const Body = styled.section`
   align-items: center;
   justify-content: center;
 
-  height: 100vh;
+  /* height: 100vh; */
 
   & > :first-child {
-    margin: 780px 0 30px 0;
+    margin: 270px 0 30px 0;
   }
 `;
 
@@ -39,9 +39,10 @@ export const ResetText = styled.span`
 `;
 
 export const CommentInputWrapper = styled.div<{ hasComments: boolean }>`
+  position: relative;
+
   display: flex;
   flex-direction: column;
-
   align-items: center;
 
   background-color: ${Theme.B_1};
@@ -55,6 +56,20 @@ export const CommentInputWrapper = styled.div<{ hasComments: boolean }>`
   }
 
   width: 100%;
+`;
+
+export const CommentBlurWrapper = styled.div`
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 80%;
+
+  background-color: ${Theme.B_1};
+  opacity: 0.9;
 `;
 
 export const DailyExamItemListWrapper = styled.div`
