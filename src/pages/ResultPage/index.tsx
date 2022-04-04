@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment, { Moment } from 'moment';
 
-import { myCalenderResult, comments } from '@/mock';
+import { myCalenderResult, comments, randomComments } from '@/mock';
 
 import Calendar from '@/components/Calendar';
 
@@ -28,6 +28,7 @@ import {
   ButtonWrapper,
   ResetText,
   CommentInputWrapper,
+  CommentBlurWrapper,
   DailyExamItemListWrapper,
   CommentItemListmWrapper,
 } from './style';
@@ -55,6 +56,10 @@ const ResultPage = () => {
         });
       }
     });
+
+    return () => {
+      setClickedExamList([]);
+    };
   }, [clickedDate]);
 
   return (
@@ -67,7 +72,18 @@ const ResultPage = () => {
         <Calendar calendar={myCalenderResult.calendar} clickedDate={clickedDate} setClickedDate={setClickedDate} />
         {hasComments ? (
           clickedDate === 0 ? (
-            <CommentInputWrapper hasComments={hasComments}>날짜 선택하고 댓글을 확인해 보시지!</CommentInputWrapper>
+            <CommentInputWrapper hasComments={hasComments}>
+              <CommentBlurWrapper>날짜 선택하고 댓글을 확인해 보시지!</CommentBlurWrapper>
+              <CommentItemListmWrapper>
+                {randomComments
+                  .slice(0, randomComments.length < 3 ? randomComments.length : 4)
+                  .map((comment, index) => (
+                    <CommentItem key={index} characterNumber={comment.profileImageNumber} nickname={comment.nickname}>
+                      {comment.body}
+                    </CommentItem>
+                  ))}
+              </CommentItemListmWrapper>
+            </CommentInputWrapper>
           ) : (
             <CommentInputWrapper hasComments={hasComments}>
               {clickedExamList && (
