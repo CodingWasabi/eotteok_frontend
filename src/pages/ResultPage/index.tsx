@@ -31,6 +31,8 @@ import {
   CommentBlurWrapper,
   DailyExamItemListWrapper,
   CommentItemListmWrapper,
+  ClickedDateWrapper,
+  Date,
 } from './style';
 
 const ResultPage = () => {
@@ -72,8 +74,9 @@ const ResultPage = () => {
         <Calendar calendar={myCalenderResult.calendar} clickedDate={clickedDate} setClickedDate={setClickedDate} />
         {hasComments ? (
           clickedDate === 0 ? (
+            // 댓글 O, 날짜 선택 X
             <CommentInputWrapper hasComments={hasComments}>
-              <CommentBlurWrapper>날짜 선택하고 댓글을 확인해 보시지!</CommentBlurWrapper>
+              <CommentBlurWrapper>날짜 선택하고 댓글을 확인해 보시지 !</CommentBlurWrapper>
               <CommentItemListmWrapper>
                 {randomComments
                   .slice(0, randomComments.length < 3 ? randomComments.length : 4)
@@ -85,9 +88,13 @@ const ResultPage = () => {
               </CommentItemListmWrapper>
             </CommentInputWrapper>
           ) : (
+            // 댓글 O, 날짜 선택 O
             <CommentInputWrapper hasComments={hasComments}>
-              {clickedExamList && (
+              {clickedExamList.length > 0 && (
                 <DailyExamItemListWrapper>
+                  <ClickedDateWrapper>
+                    <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
+                  </ClickedDateWrapper>
                   {clickedExamList.map((info, index) => (
                     <DailyExamItem
                       key={index}
@@ -100,19 +107,25 @@ const ResultPage = () => {
                   ))}
                 </DailyExamItemListWrapper>
               )}
-              {comments && (
-                <CommentItemListmWrapper>
-                  {comments.map((info, index) => (
-                    <CommentItem key={index} characterNumber={info.profileImageNumber} nickname={info.nickname}>
-                      {info.body}
-                    </CommentItem>
-                  ))}
-                </CommentItemListmWrapper>
+              {comments.length > 0 && (
+                <>
+                  <ClickedDateWrapper>
+                    <Date>{clickedDate} 일</Date> 댓글 보시지?
+                  </ClickedDateWrapper>
+                  <CommentInput hasComments={hasComments} onClickButton={onClickRegisterComment} />
+                  <CommentItemListmWrapper>
+                    {comments.map((info, index) => (
+                      <CommentItem key={index} characterNumber={info.profileImageNumber} nickname={info.nickname}>
+                        {info.body}
+                      </CommentItem>
+                    ))}
+                  </CommentItemListmWrapper>
+                </>
               )}
-              <CommentInput hasComments={hasComments} onClickButton={onClickRegisterComment} />
             </CommentInputWrapper>
           )
         ) : clickedDate === 0 ? (
+          // 댓글 X, 날짜 선택 X
           <CommentInputWrapper hasComments={hasComments}>
             <Text fontSize={16} letterSpacing={-0.5}>
               날짜 선택하고 댓글을 남겨보시지 !
@@ -120,11 +133,16 @@ const ResultPage = () => {
             <CommentInput hasComments={hasComments} onClickButton={onClickRegisterComment} />
           </CommentInputWrapper>
         ) : (
+          // 댓글 X, 날짜 선택 O
           <CommentInputWrapper hasComments={true}>
-            <DailyExamItemListWrapper>
-              {clickedExamList &&
-                clickedExamList.map((info) => (
+            {clickedExamList.length > 0 && (
+              <DailyExamItemListWrapper>
+                <ClickedDateWrapper>
+                  <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
+                </ClickedDateWrapper>
+                {clickedExamList.map((info, index) => (
                   <DailyExamItem
+                    key={index}
                     name={info.name}
                     d_day={info.d_day}
                     color={info.color}
@@ -132,8 +150,21 @@ const ResultPage = () => {
                     date={clickedDate}
                   />
                 ))}
-            </DailyExamItemListWrapper>
+              </DailyExamItemListWrapper>
+            )}
+            <ClickedDateWrapper>
+              <Date>{clickedDate} 일</Date> 댓글 보시지?
+            </ClickedDateWrapper>
             <CommentInput hasComments={true} onClickButton={onClickRegisterComment} />
+            {comments.length > 0 && (
+              <CommentItemListmWrapper>
+                {comments.map((info, index) => (
+                  <CommentItem key={index} characterNumber={info.profileImageNumber} nickname={info.nickname}>
+                    {info.body}
+                  </CommentItem>
+                ))}
+              </CommentItemListmWrapper>
+            )}
           </CommentInputWrapper>
         )}
         <ButtonWrapper>

@@ -73,6 +73,10 @@ export const CommentBlurWrapper = styled.div`
 `;
 
 export const DailyExamItemListWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   margin-bottom: 26px;
 
   & > div:not(:last-child) {
@@ -81,9 +85,28 @@ export const DailyExamItemListWrapper = styled.div`
 `;
 
 export const CommentItemListmWrapper = styled.div`
-  margin-bottom: 22px;
+  margin: 46px 0px 22px 0px;
 
   & > div:not(:last-child) {
     margin-bottom: 14px;
   }
+`;
+
+export const ClickedDateWrapper = styled.div`
+  width: 277px;
+  height: 32px;
+
+  text-align: center;
+  font-size: 24px;
+  color: ${Theme.T_1};
+
+  background-color: ${Theme.M_5};
+
+  padding: 5px 10px;
+
+  margin-bottom: 20px;
+`;
+
+export const Date = styled.span`
+  box-shadow: inset 0 0px 0 white, inset 0 -1px 0 black;
 `;

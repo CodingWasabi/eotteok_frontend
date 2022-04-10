@@ -36,19 +36,3 @@ export const DayWrapper = styled.td<{ isWeekend: boolean; isClicked: boolean }>`
   font-size: 20px;
   color: ${({ isWeekend }) => (isWeekend ? Theme.T_2 : Theme.T_1)};
 `;
-
-export const FlexCenterWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-
-  margin-top: 15px;
-`;
-
-export const ClickedDateWrapper = styled.span`
-  font-size: 27px;
-  color: ${Theme.T_1};
-
-  background-color: ${Theme.M_5};
-
-  padding: 5px 10px;
-`;

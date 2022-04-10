@@ -27,7 +27,7 @@ const Tendency = ({ nickname, tendency }: ITendencyProps) => {
           {tendencyList[tendency - 1].common}
         </Text>
       </TendencyTextWrapper>
-      <img src={`images/tendency/1.png`} alt="성향" />
+      <img src={`images/tendency/${tendency}.png`} alt="성향" />
     </Wrapper>
   );
 };
