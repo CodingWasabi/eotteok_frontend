@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import useSWR from 'swr';
 import { useNavigate } from 'react-router-dom';
+
+import { validateNickname } from '@/lib/api/validation';
 
 import useNicknameActions from '@/hooks/useNicknameActions';
 import useWarngingExit from '@/hooks/useWarningExit';
+import useDebounce from '@/hooks/useDebounce';
 
 import Icon from '@/components/Icon';
 import Text from '@/components/common/Text';
@@ -22,7 +26,10 @@ const NickNamePage = () => {
   const { registerNickname } = useNicknameActions();
 
   const [nickname, setNickname] = useState<string>('');
+  const [isLoading, debouncedValue] = useDebounce<string>(nickname, 500);
   const [isNicknameDuplicated, setIsNicknameDuplicated] = useState<boolean>(false);
+
+  const { data } = useSWR(['validateNickname', debouncedValue], () => validateNickname(debouncedValue));
 
   const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
