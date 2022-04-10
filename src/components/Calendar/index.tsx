@@ -11,7 +11,7 @@ import { ICalendar, ICalendarProps } from '@/types/calendar';
 
 import { Theme } from '@/styles/Theme';
 
-import { Wrapper, MonthWrapper, IconWrapper, DayWrapper, FlexCenterWrapper, ClickedDateWrapper } from './style';
+import { Wrapper, MonthWrapper, IconWrapper, DayWrapper } from './style';
 
 const Calendar = ({ calendar, clickedDate, setClickedDate }: ICalendarProps) => {
   const [getMoment, setMoment] = useState<Moment>(moment());
@@ -118,11 +118,6 @@ const Calendar = ({ calendar, clickedDate, setClickedDate }: ICalendarProps) => 
       <table>
         <tbody>{calendarArr()}</tbody>
       </table>
-      {clickedDate > 0 && (
-        <FlexCenterWrapper>
-          <ClickedDateWrapper>{clickedDate} 일</ClickedDateWrapper>
-        </FlexCenterWrapper>
-      )}
     </Wrapper>
   );
 };
