@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import { useNavigate } from 'react-router-dom';
 
@@ -27,9 +27,12 @@ const NickNamePage = () => {
 
   const [nickname, setNickname] = useState<string>('');
   const [isLoading, debouncedValue] = useDebounce<string>(nickname, 500);
-  const [isNicknameDuplicated, setIsNicknameDuplicated] = useState<boolean>(false);
+  const [isNicknameDuplicated, setIsNicknameDuplicated] = useState<boolean>(true);
 
-  const { data } = useSWR(['validateNickname', debouncedValue], () => validateNickname(debouncedValue));
+  const { data: statusCode } = useSWR(
+    ['validateNickname', debouncedValue],
+    debouncedValue ? () => validateNickname(debouncedValue) : null,
+  );
 
   const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
@@ -40,6 +43,18 @@ const NickNamePage = () => {
     navigate('/survey');
   };
 
+  useEffect(() => {
+    if (!debouncedValue) {
+      setIsNicknameDuplicated(true);
+    }
+    if (statusCode === 200) {
+      setIsNicknameDuplicated(false);
+    }
+    if (statusCode === 400) {
+      setIsNicknameDuplicated(true);
+    }
+  }, [debouncedValue, statusCode]);
+
   useWarngingExit();
 
   return (
@@ -48,12 +63,13 @@ const NickNamePage = () => {
         <Icon icon="QuestionMark" width={59} height={64} />
         <Text>닉네임 한번 정해 보시지!</Text>
         <Input value={nickname} onChangeNickname={onChangeNickname} />
-        {isNicknameDuplicated && (
-          <WarningTextWrapper isNicknameDuplicated={isNicknameDuplicated}>
+        {isLoading && <Icon icon="Spinner" width={50} height={50} />}
+        {!!debouncedValue && isNicknameDuplicated && (
+          <WarningTextWrapper isNicknameDuplicated={!!debouncedValue && isNicknameDuplicated}>
             <Text color={Theme.M_3}>*중복된 이름이에요!</Text>
           </WarningTextWrapper>
         )}
-        <Button variant="next" isFilled={nickname ? true : false} onClick={onClickNext}>
+        <Button variant="next" isFilled={!isNicknameDuplicated} onClick={onClickNext}>
           다음
         </Button>
       </Body>
