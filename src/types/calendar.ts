@@ -7,6 +7,8 @@ export interface IDailyToDos {
   hour: number;
   d_day: number;
   color: number;
+  month: number;
+  date: number;
 }
 
 export interface IMonthlyToDos {
