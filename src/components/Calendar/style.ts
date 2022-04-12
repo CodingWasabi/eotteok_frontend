@@ -36,3 +36,8 @@ export const DayWrapper = styled.td<{ isWeekend: boolean; isClicked: boolean }>`
   font-size: 20px;
   color: ${({ isWeekend }) => (isWeekend ? Theme.T_2 : Theme.T_1)};
 `;
+
+export const ColoredLine = styled.div<{ color: string }>`
+  width: 100%;
+  border-bottom: 5px solid ${({ color }) => color};
+`;

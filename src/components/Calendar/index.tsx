@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import moment, { Moment } from 'moment';
 
+import { colorList } from '@/lib/constants';
+
 import Icon from '@/components/Icon';
 
 import CharacterList from '@/components/Calendar/CharacterList';
@@ -11,12 +13,10 @@ import { ICalendar, ICalendarProps } from '@/types/calendar';
 
 import { Theme } from '@/styles/Theme';
 
-import { Wrapper, MonthWrapper, IconWrapper, DayWrapper } from './style';
+import { Wrapper, MonthWrapper, IconWrapper, DayWrapper, ColoredLine } from './style';
 
-const Calendar = ({ calendar, clickedDate, setClickedDate }: ICalendarProps) => {
+const Calendar = ({ calendar, selectedMonth, clickedDate, setSelectedMonth, setClickedDate }: ICalendarProps) => {
   const [getMoment, setMoment] = useState<Moment>(moment());
-
-  const selectedMonth = Number(getMoment.format('M'));
 
   const today = getMoment;
   const firstWeek = today.clone().startOf('month').week();
@@ -38,11 +38,23 @@ const Calendar = ({ calendar, clickedDate, setClickedDate }: ICalendarProps) => 
   const onClickPrev = () => {
     setMoment(getMoment.clone().subtract(1, 'month'));
     setClickedDate(0);
+    setSelectedMonth((prev) => {
+      if (prev === 1) {
+        return 12;
+      }
+      return prev - 1;
+    });
   };
 
   const onClickNext = () => {
     setMoment(getMoment.clone().add(1, 'month'));
     setClickedDate(0);
+    setSelectedMonth((prev) => {
+      if (prev === 12) {
+        return 1;
+      }
+      return prev + 1;
+    });
   };
 
   const isCurrentMonth = (currentMonth: number, selectedMonth: number) => currentMonth === selectedMonth;
@@ -62,6 +74,7 @@ const Calendar = ({ calendar, clickedDate, setClickedDate }: ICalendarProps) => 
               const date = Number(day.format('D'));
               const month = Number(day.format('M'));
 
+              let colors: Array<number> = [];
               let toDoYear;
               let toDoMonth;
               let toDoDate;
@@ -79,18 +92,24 @@ const Calendar = ({ calendar, clickedDate, setClickedDate }: ICalendarProps) => 
                 toDoCommentCount = calendarInfo.toDos[i].commentCount;
 
                 if (Number(toDoDate) === date) {
+                  if (Number(toDoMonth) === month) {
+                    colors = calendarInfo.toDos[i].toDos.map((info) => info.color);
+                  }
                   break;
                 }
               }
 
               return (
                 <DayWrapper
-                  key={index}
+                  key={`${month}/${index}`}
                   isWeekend={isWeekend(day)}
                   isClicked={month === selectedMonth && clickedDate === date}
                   onClick={() => month === selectedMonth && onClickDate(date)}
                 >
                   <span>{isCurrentMonth(Number(day.format('M')), selectedMonth) && date}</span>
+                  {colors.map((color, index) => (
+                    <ColoredLine key={index} color={colorList[color]} />
+                  ))}
                   {Number(isCurrentMonth(Number(day.format('M')), selectedMonth) && toDoDate) === date && (
                     <CharacterList commentCount={toDoCommentCount > 5 ? 5 : toDoCommentCount} />
                   )}
@@ -110,7 +129,7 @@ const Calendar = ({ calendar, clickedDate, setClickedDate }: ICalendarProps) => 
         <IconWrapper onClick={onClickPrev}>
           <Icon icon="Arrow" width={12} height={19} color={Theme.T_2} />
         </IconWrapper>
-        <Text fontSize={27}>{today.format('M월')}</Text>
+        <Text fontSize={27}>{`${selectedMonth}월`}</Text>
         <IconWrapper onClick={onClickNext}>
           <Icon icon="Arrow" width={12} height={19} color={Theme.T_2} rotate={180} />
         </IconWrapper>
