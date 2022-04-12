@@ -46,7 +46,7 @@ export const ExamInfoWrapper = styled.div`
   & > :nth-child(1) {
     display: inline-block;
     width: 120px;
-    margin-right: 10px;
+    margin-right: 5px;
   }
 
   & > :nth-child(2),
