@@ -6,3 +6,4 @@ export { default as QuestionMark } from './QuestionMark';
 export { default as Logo } from './Logo';
 export { default as LogoPencil } from './LogoPencil';
 export { default as FilledArrow } from './FilledArrow';
+export { default as Spinner } from './Spinner';
