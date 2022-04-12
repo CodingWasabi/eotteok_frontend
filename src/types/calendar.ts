@@ -1,3 +1,7 @@
+import React from 'react';
+
+import { IExam } from '@/types/exam';
+
 export interface IDailyToDos {
   name: string;
   hour: number;
@@ -19,14 +23,10 @@ export interface ICalendar {
 
 export interface ICalendarProps {
   calendar: Array<ICalendar>;
+  selectedMonth: number;
   clickedDate: number;
+  setSelectedMonth: React.Dispatch<React.SetStateAction<number>>;
   setClickedDate: React.Dispatch<React.SetStateAction<number>>;
-}
-
-interface IExam {
-  name: string;
-  date: string;
-  prepareTime: number;
 }
 
 export interface IRequestCalendar {
@@ -44,4 +44,21 @@ export interface IRequestCommentParams {
 export interface IRequestPostComment extends IRequestCommentParams {
   profileImageNumber: number;
   body: string;
+}
+
+export interface IResponsePostCalendar {
+  nickname: string;
+  tendency: number;
+  accountId: number | null;
+  calendar: Array<ICalendar>;
+  exams: Array<{
+    name: string;
+    year: number;
+    month: number;
+    date: number;
+    hour: number;
+    minute: number;
+    d_day: number;
+    color: number;
+  }>;
 }
