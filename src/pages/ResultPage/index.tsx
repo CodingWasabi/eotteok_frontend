@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import moment, { Moment } from 'moment';
 
-import { myCalenderResult, comments, randomComments } from '@/mock';
+import { comments, randomComments } from '@/mock';
+
+import { loginPath } from '@/lib/constants';
+import copyClipboard from '@/lib/util/copyClipboard';
+
+import useNickname from '@/hooks/useNickname';
+import useCalendar from '@/hooks/useCalendar';
 
 import Calendar from '@/components/Calendar';
 
@@ -11,6 +17,8 @@ import CommentInput from '@/components/Comment/CommentInput';
 import Tendency from '@/components/Tendency';
 
 import ExamList from '@/components/Exam/ExamList';
+import ExamTime from '@/components/Exam/ExamTime';
+import ExamTimeTitle from '@/components/Exam/ExamTimeTitle';
 import DailyExamItem from '@/components/Exam/DailyExamItem';
 
 import AppLayout from '@/components/common/AppLayout';
@@ -18,7 +26,7 @@ import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 import Icon from '@/components/Icon';
 
-import { ICalendar, IMonthlyToDos, IDailyToDos } from '@/types/calendar';
+import { ICalendar, IDailyToDos } from '@/types/calendar';
 
 import { Theme } from '@/styles/Theme';
 
@@ -33,26 +41,48 @@ import {
   CommentItemListmWrapper,
   ClickedDateWrapper,
   Date,
+  ExamTimeWrapper,
 } from './style';
 
-const ResultPage = () => {
-  const [getMoment, _] = useState<Moment>(moment());
-  const [clickedDate, setClickedDate] = useState<number>(0);
-  const [hasComments, __] = useState<boolean>(myCalenderResult.commentCount > 0);
-  const [clickedExamList, setClickedExamList] = useState<Array<IDailyToDos>>([]);
+const setHasComments = (calendar: Array<ICalendar>, selectedMonth: number) => {
+  if (calendar.length < 0) return false;
 
-  const selectedMonth = Number(getMoment.format('M'));
+  calendar.forEach((item: ICalendar) => {
+    if (item.month === selectedMonth) {
+      return !!item.commentCount;
+    }
+  });
+
+  return false;
+};
+
+const ResultPage = () => {
+  const { nickname } = useNickname();
+  const { tendency, accountId, calendar, exams } = useCalendar();
+
+  const [getMoment, _] = useState<Moment>(moment());
+  const [selectedMonth, setSelectedMonth] = useState<number>(Number(getMoment.format('M')));
+
+  const [clickedDate, setClickedDate] = useState<number>(0);
+  const [hasComments, __] = useState<boolean>(setHasComments(calendar, selectedMonth));
+  const [clickedExamList, setClickedExamList] = useState<Array<IDailyToDos>>([]);
 
   const onClickRegisterComment = () => {
     alert('댓글 등록');
   };
 
+  const onClickShare = () => {
+    window.location.href = loginPath;
+  };
+
   useEffect(() => {
-    myCalenderResult.calendar.forEach((monthlyItem: ICalendar) => {
-      if (selectedMonth === monthlyItem.month) {
-        monthlyItem.toDos.forEach((toDo: IMonthlyToDos) => {
-          const [year, month, date] = toDo.date.split('-');
-          if (Number(date) === clickedDate) {
+    if (!calendar) return;
+
+    calendar.forEach((info) => {
+      if (info.month === selectedMonth) {
+        info.toDos.forEach((toDo) => {
+          const [, , toDoDate] = toDo.date.split('-');
+          if (Number(toDoDate) === clickedDate) {
             setClickedExamList(toDo.toDos);
           }
         });
@@ -62,16 +92,22 @@ const ResultPage = () => {
     return () => {
       setClickedExamList([]);
     };
-  }, [clickedDate]);
+  }, [selectedMonth, clickedDate]);
 
   return (
     <AppLayout>
-      <Tendency nickname={myCalenderResult.nickname} tendency={myCalenderResult.tendency} />
+      <Tendency nickname={nickname} tendency={tendency} />
       <Body>
         <ExamListWrapper>
-          <ExamList exams={myCalenderResult.exams} />
+          <ExamList exams={exams} />
         </ExamListWrapper>
-        <Calendar calendar={myCalenderResult.calendar} clickedDate={clickedDate} setClickedDate={setClickedDate} />
+        <Calendar
+          calendar={calendar}
+          selectedMonth={selectedMonth}
+          clickedDate={clickedDate}
+          setSelectedMonth={setSelectedMonth}
+          setClickedDate={setClickedDate}
+        />
         {hasComments ? (
           clickedDate === 0 ? (
             // 댓글 O, 날짜 선택 X
@@ -91,21 +127,25 @@ const ResultPage = () => {
             // 댓글 O, 날짜 선택 O
             <CommentInputWrapper hasComments={hasComments}>
               {clickedExamList.length > 0 && (
-                <DailyExamItemListWrapper>
+                <>
+                  <DailyExamItemListWrapper>
+                    <ClickedDateWrapper>
+                      <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
+                    </ClickedDateWrapper>
+                    {clickedExamList.map(({ name, d_day, color, month, date }, index) => (
+                      <DailyExamItem key={index} name={name} d_day={d_day} color={color} month={month} date={date} />
+                    ))}
+                  </DailyExamItemListWrapper>
                   <ClickedDateWrapper>
-                    <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
+                    <Date>{clickedDate} 일</Date> 공부 이 정도는 해야지?
                   </ClickedDateWrapper>
-                  {clickedExamList.map((info, index) => (
-                    <DailyExamItem
-                      key={index}
-                      name={info.name}
-                      d_day={info.d_day}
-                      color={info.color}
-                      month={selectedMonth}
-                      date={clickedDate}
-                    />
-                  ))}
-                </DailyExamItemListWrapper>
+                  <ExamTimeWrapper>
+                    <ExamTimeTitle />
+                    {clickedExamList.map(({ name, color, hour }, index) => (
+                      <ExamTime key={`${name}/${index}`} color={color} exam={name} time={hour} />
+                    ))}
+                  </ExamTimeWrapper>
+                </>
               )}
               {comments.length > 0 && (
                 <>
@@ -136,21 +176,25 @@ const ResultPage = () => {
           // 댓글 X, 날짜 선택 O
           <CommentInputWrapper hasComments={true}>
             {clickedExamList.length > 0 && (
-              <DailyExamItemListWrapper>
+              <>
+                <DailyExamItemListWrapper>
+                  <ClickedDateWrapper>
+                    <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
+                  </ClickedDateWrapper>
+                  {clickedExamList.map(({ name, d_day, color, month, date }, index) => (
+                    <DailyExamItem key={index} name={name} d_day={d_day} color={color} month={month} date={date} />
+                  ))}
+                </DailyExamItemListWrapper>
                 <ClickedDateWrapper>
-                  <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
+                  <Date>{clickedDate} 일</Date> 공부 이 정도는 해야지?
                 </ClickedDateWrapper>
-                {clickedExamList.map((info, index) => (
-                  <DailyExamItem
-                    key={index}
-                    name={info.name}
-                    d_day={info.d_day}
-                    color={info.color}
-                    month={selectedMonth}
-                    date={clickedDate}
-                  />
-                ))}
-              </DailyExamItemListWrapper>
+                <ExamTimeWrapper>
+                  <ExamTimeTitle />
+                  {clickedExamList.map(({ name, color, hour }, index) => (
+                    <ExamTime key={`${name}/${index}`} color={color} exam={name} time={hour} />
+                  ))}
+                </ExamTimeWrapper>
+              </>
             )}
             <ClickedDateWrapper>
               <Date>{clickedDate} 일</Date> 댓글 보시지?
@@ -168,7 +212,7 @@ const ResultPage = () => {
           </CommentInputWrapper>
         )}
         <ButtonWrapper>
-          <Button variant="M_4">
+          <Button variant="M_4" onClick={onClickShare}>
             <Icon icon="Share" />
             <Text color={Theme.B_1}>달력 공유해 보시지</Text>
           </Button>
