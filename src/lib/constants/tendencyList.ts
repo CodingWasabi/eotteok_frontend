@@ -174,6 +174,11 @@ const tendencyList = [
     common: '떡잎유치원 여러분~? 빛의 속도로 시험본적 있나요?',
     image: 35,
   },
+  {
+    personal: '개같이 멸망!',
+    common: '지금 계획으로는 다 못 끝내요.',
+    image: 36,
+  },
 ];
 
 export default tendencyList;
