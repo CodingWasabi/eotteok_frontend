@@ -6,6 +6,7 @@ import useSurvey from '@/hooks/useSurvey';
 import useSurveyActions from '@/hooks/useSurveyActions';
 
 import Title from '@/components/Survey/Title';
+import TimeInput from '@/components/Survey/TimeInput';
 import QuestionItem from '@/components/Survey/QuestionItem';
 
 import Input from '@/components/Exam/Input';
@@ -16,7 +17,16 @@ import PrepareTime from '@/components/Exam/PrepareTime';
 import Button from '@/components/common/Button';
 import Text from '@/components/common/Text';
 
-import { Wrapper, SliderWrapper, ContentsWrapper, DelayedTimeWrapper, ButtonWrapper, TextCenterWrapper } from './style';
+import {
+  Wrapper,
+  SliderWrapper,
+  ContentsWrapper,
+  DelayedTimeWrapper,
+  DailyQuotaWrapper,
+  ButtonWrapper,
+  TextCenterWrapper,
+  FlexWrapper,
+} from './style';
 
 export interface IQuestionSelectionProps {
   progressStep: number;
@@ -30,6 +40,7 @@ interface IAnswerItem {
 
 const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelectionProps) => {
   const {
+    dailyQuota,
     answerList: storeAnswerList,
     exam,
     examInfoId,
@@ -96,7 +107,8 @@ const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelection
     updateExamScheduleInfo({ target: 'isEdit', value: false });
   };
 
-  const isExamInputPage = (questionNumber: number) => questionNumber === 4;
+  const isExamInputPage = (questionNumber: number) => questionNumber === 5;
+  const isTimeInputPage = (questionNumber: number) => questionNumber === 4;
 
   useEffect(() => {
     onClickAnswer(answerList);
@@ -151,22 +163,42 @@ const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelection
           ) : (
             <ContentsWrapper key={questionNumber}>
               <Title>{title}</Title>
-              {question.map((item, index) => (
-                <QuestionItem
-                  key={`questionNumber * index ${item}`}
-                  selectedNumber={index + 1}
-                  questionNumber={questionNumber + 1}
-                  onClickItem={() => onClickAnswerItem({ index: questionNumber, number: index + 1 })}
-                >
-                  {item}
-                </QuestionItem>
-              ))}
+              {isTimeInputPage(questionNumber) ? (
+                <DailyQuotaWrapper>
+                  <Text fontSize={24} letterSpacing={-0.5}>
+                    나는 하루에...
+                  </Text>
+                  <FlexWrapper>
+                    <Text fontSize={18} letterSpacing={-0.5}>
+                      최대
+                    </Text>
+                    <TimeInput />
+                    <Text fontSize={18} letterSpacing={-0.5}>
+                      시간
+                    </Text>
+                  </FlexWrapper>
+                  <Text fontSize={24} letterSpacing={-0.5}>
+                    공부할 수 있다 !
+                  </Text>
+                </DailyQuotaWrapper>
+              ) : (
+                question.map((item, index) => (
+                  <QuestionItem
+                    key={`questionNumber * index ${item}`}
+                    selectedNumber={index + 1}
+                    questionNumber={questionNumber + 1}
+                    onClickItem={() => onClickAnswerItem({ index: questionNumber, number: index + 1 })}
+                  >
+                    {item}
+                  </QuestionItem>
+                ))
+              )}
             </ContentsWrapper>
           ),
         )}
       </SliderWrapper>
       <ButtonWrapper>
-        {progressStep === 4 ? (
+        {progressStep === 5 ? (
           <Button
             variant={examInfoId === -1 ? 'add' : 'M_4'}
             isFilled={(exam ? true : false) && isFilledDate && isFilledTime && isFilledPrepareTime}
@@ -179,13 +211,13 @@ const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelection
             <Button variant="previous" onClick={onClickPrev}>
               이전
             </Button>
-            <Button variant="next" isFilled={isClickedAnswer} onClick={onClickNext}>
+            <Button variant="next" isFilled={isClickedAnswer || !!dailyQuota} onClick={onClickNext}>
               다음
             </Button>
           </>
         )}
       </ButtonWrapper>
-      {progressStep === 4 && (
+      {progressStep === 5 && (
         <TextCenterWrapper>
           <Text letterSpacing={-0.5}>&lt;시험 리스트&gt;</Text>
         </TextCenterWrapper>

@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
+import { registerCalendar } from '@/lib/api/calendar';
+import setTime from '@/lib/util/setTime';
+
+import useNickname from '@/hooks/useNickname';
 import useSurvey from '@/hooks/useSurvey';
 import useWarngingExit from '@/hooks/useWarningExit';
 
@@ -16,7 +20,8 @@ import { ExamInfoType } from '@/modules/survey';
 import { Body, ExamInfoListWrapper, ExamListContainer, TextWrapper } from './style';
 
 const SurveyPage = () => {
-  const { examInfoList, isEdit, examInfoId } = useSurvey();
+  const { nickname } = useNickname();
+  const { answerList, dailyQuota, examInfoList, isEdit, examInfoId } = useSurvey();
 
   const [percentage, setPercentage] = useState<number>(0);
   const [progressStep, setProgressStep] = useState<number>(0);
@@ -27,13 +32,32 @@ const SurveyPage = () => {
 
   useWarngingExit();
 
+  const onClickRegister = async () => {
+    const body = {
+      nickname,
+      answers: answerList,
+      dailyQuota,
+      exams: examInfoList.map((info: ExamInfoType) => {
+        return {
+          name: info.exam,
+          date: `${info.year}/${setTime(info.month)}/${setTime(info.date)} ${setTime(info.hour)}:${setTime(
+            info.minute,
+          )}`,
+          prepareTime: info.prepareTime,
+        };
+      }),
+    };
+
+    const res = await registerCalendar(body);
+  };
+
   return (
     <AppLayout>
       <Body>
         <ProgressBar percentage={percentage} />
         <QuestionSelection progressStep={progressStep} setProgressStep={setProgressStep} />
       </Body>
-      {progressStep === 4 && (
+      {progressStep === 5 && (
         <ExamInfoListWrapper>
           {examInfoList.length > 0 ? (
             <ExamListContainer>
@@ -49,7 +73,9 @@ const SurveyPage = () => {
               리스트를 볼 수 있어요!
             </TextWrapper>
           )}
-          <Button variant="M_2">넘기시지</Button>
+          <Button variant="M_2" onClick={onClickRegister}>
+            넘기시지
+          </Button>
         </ExamInfoListWrapper>
       )}
     </AppLayout>

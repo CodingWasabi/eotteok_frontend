@@ -48,3 +48,29 @@ export const TextCenterWrapper = styled.div`
 
   margin: 20px 0 10px 0;
 `;
+
+export const DailyQuotaWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 100%;
+  min-width: 330px;
+  max-width: 360px;
+
+  & > :first-child {
+    margin-bottom: 17px;
+  }
+
+  & > :nth-child(2) {
+    margin-bottom: 20px;
+  }
+`;
+
+export const FlexWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  width: 200px;
+`;

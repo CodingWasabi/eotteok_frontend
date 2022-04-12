@@ -27,6 +27,10 @@ const questionList = [
       '그냥 훈이',
     ],
   },
+  {
+    title: 'Q5 하루에 몇 시간 공부 가능?',
+    question: [],
+  },
   { title: '울라울라 시험정보 ~', question: [] },
 ];
 
