@@ -8,6 +8,7 @@ import {
   initializeExamInfo,
   updateExamInfoId,
   editExamInfo,
+  updateExamList,
 } from '@/modules/survey/actions';
 import { SurveyType, SurveyAction } from '@/modules/survey/types';
 
@@ -83,6 +84,10 @@ const survey = createReducer<SurveyType, SurveyAction>(initialState)
   .handleAction(editExamInfo, (state, { payload: { examInfoId, ...examInfo } }) => ({
     ...state,
     examInfoList: state.examInfoList.map((info, index) => (index === examInfoId ? examInfo : info)),
+  }))
+  .handleAction(updateExamList, (state, { payload: examInfoList }) => ({
+    ...state,
+    examInfoList,
   }));
 
 export default survey;

@@ -12,6 +12,7 @@ const REGISTER_EXAM_INFO = 'survey/REGISTER_EXAM_INFO';
 const INITIALIZE_EXAM_INFO = 'survey/INITIALIZE_EXAM_INFO';
 const UPDATE_EXAM_INFO_ID = 'survey/UPDATE_EXAM_INFO_ID';
 const EDIT_EXAM_INFO = 'survey/EDIT_EXAM_INFO';
+const UPDATE_EXAM_LIST = 'survey/UPDATE_EXAM_LIST';
 
 /**
  * 액션 생성 함수
@@ -23,3 +24,4 @@ export const registerExamInfo = createAction(REGISTER_EXAM_INFO)<ExamInfoType>()
 export const initializeExamInfo = createAction(INITIALIZE_EXAM_INFO)();
 export const updateExamInfoId = createAction(UPDATE_EXAM_INFO_ID)<number>();
 export const editExamInfo = createAction(EDIT_EXAM_INFO)<ExamInfoType & ExamInfoIdType>();
+export const updateExamList = createAction(UPDATE_EXAM_LIST)<Array<ExamInfoType>>();
