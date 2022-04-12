@@ -10,6 +10,7 @@ import {
   initializeExamInfo,
   updateExamInfoId,
   editExamInfo,
+  updateExamList,
 } from '@/modules/survey';
 
 const useSurveyActions = () => {
@@ -22,6 +23,7 @@ const useSurveyActions = () => {
   const initExamInfo = useCallback(() => dispatch(initializeExamInfo()), [dispatch]);
   const dispatchExamInfoId = useCallback((id) => dispatch(updateExamInfoId(id)), [dispatch]);
   const editExam = useCallback((examInfo) => dispatch(editExamInfo(examInfo)), [dispatch]);
+  const dispatchExamList = useCallback((examList) => dispatch(updateExamList(examList)), [dispatch]);
 
   return {
     onClickAnswer,
@@ -31,6 +33,7 @@ const useSurveyActions = () => {
     initExamInfo,
     dispatchExamInfoId,
     editExam,
+    dispatchExamList,
   };
 };
 
