@@ -14,6 +14,8 @@ import { SurveyType, SurveyAction } from '@/modules/survey/types';
 const date = new Date();
 
 const initialState: SurveyType = {
+  dailyQuota: 0,
+
   answerList: [],
 
   exam: '',

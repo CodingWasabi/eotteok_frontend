@@ -19,6 +19,8 @@ export type ExamInfoType = {
 };
 
 export type SurveyType = {
+  dailyQuota: number;
+
   answerList: AnswerListType;
 
   exam: string;
