@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import moment, { Moment } from 'moment';
+import { useParams } from 'react-router-dom';
 
 import { comments, randomComments } from '@/mock';
 
@@ -58,11 +59,12 @@ const setHasComments = (calendar: Array<ICalendar>, selectedMonth: number) => {
 };
 
 const ResultPage = () => {
+  const params = useParams();
+
   const { nickname } = useNickname();
   const { tendency, accountId, calendar, exams } = useCalendar();
 
   const { me, error } = useMe();
-  console.log(me, me ? 1 : 2);
 
   const [getMoment, _] = useState<Moment>(moment());
   const [selectedMonth, setSelectedMonth] = useState<number>(Number(getMoment.format('M')));
@@ -71,13 +73,16 @@ const ResultPage = () => {
   const [hasComments, __] = useState<boolean>(setHasComments(calendar, selectedMonth));
   const [clickedExamList, setClickedExamList] = useState<Array<IDailyToDos>>([]);
 
+  const { accountId: accountIdFromParams } = params;
+
   const onClickRegisterComment = () => {
     alert('댓글 등록');
   };
 
   const onClickShare = () => {
-    if (!me) {
-      copyClipboard('www.naver.com');
+    if (me !== 'null : null' && me !== false) {
+      copyClipboard(`http://3.34.94.220:3000/${accountId || accountIdFromParams}`);
+      return;
     }
     window.location.href = loginPath;
   };
