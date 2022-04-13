@@ -6,6 +6,7 @@ import { comments, randomComments } from '@/mock';
 import { loginPath } from '@/lib/constants';
 import copyClipboard from '@/lib/util/copyClipboard';
 
+import useMe from '@/hooks/useMe';
 import useNickname from '@/hooks/useNickname';
 import useCalendar from '@/hooks/useCalendar';
 
@@ -60,6 +61,9 @@ const ResultPage = () => {
   const { nickname } = useNickname();
   const { tendency, accountId, calendar, exams } = useCalendar();
 
+  const { me, error } = useMe();
+  console.log(me, me ? 1 : 2);
+
   const [getMoment, _] = useState<Moment>(moment());
   const [selectedMonth, setSelectedMonth] = useState<number>(Number(getMoment.format('M')));
 
@@ -72,6 +76,9 @@ const ResultPage = () => {
   };
 
   const onClickShare = () => {
+    if (!me) {
+      copyClipboard('www.naver.com');
+    }
     window.location.href = loginPath;
   };
 
