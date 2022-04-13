@@ -10,6 +10,7 @@ const initialState: CalendarType = {
   calendar: [],
   exams: [],
 
+  postCalendarSuccess: false,
   postCalendarError: null,
 };
 
@@ -24,9 +25,11 @@ const calendar = createReducer<CalendarType, CalendarAction>(initialState)
     accountId,
     calendar,
     exams,
+    postCalendarSuccess: true,
   }))
   .handleAction(postCalendarAsync.failure, (state, { payload: postCalendarError }) => ({
     ...state,
+    postCalendarSuccess: false,
     postCalendarError,
   }));
 export default calendar;

@@ -8,5 +8,6 @@ import { IResponsePostCalendar } from '@/types/calendar';
 export type CalendarAction = ActionType<typeof actions>;
 
 export type CalendarType = IResponsePostCalendar & {
+  postCalendarSuccess: boolean;
   postCalendarError: AxiosError | null;
 };
