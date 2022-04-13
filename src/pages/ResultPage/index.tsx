@@ -148,63 +148,124 @@ const ResultPage = () => {
 
   return (
     <AppLayout>
-      <Tendency nickname={nickname} tendency={tendency} />
-      <Body>
-        <ExamListWrapper>
-          <ExamList exams={exams} />
-        </ExamListWrapper>
-        <Calendar
-          calendar={calendar}
-          selectedMonth={selectedMonth}
-          clickedDate={clickedDate}
-          setSelectedMonth={setSelectedMonth}
-          setClickedDate={setClickedDate}
-        />
-        {hasComments ? (
-          clickedDate === 0 ? (
-            // 댓글 O, 날짜 선택 X
-            <CommentInputWrapper hasComments={hasComments}>
-              <CommentBlurWrapper>날짜 선택하고 댓글을 확인해 보시지 !</CommentBlurWrapper>
-              <CommentItemListmWrapper>
-                {randomComments
-                  .slice(0, randomComments.length < 3 ? randomComments.length : 4)
-                  .map((comment, index) => (
-                    <CommentItem key={index} characterNumber={comment.profileImageNumber} nickname={comment.nickname}>
-                      {comment.body}
-                    </CommentItem>
-                  ))}
-              </CommentItemListmWrapper>
-            </CommentInputWrapper>
-          ) : (
-            // 댓글 O, 날짜 선택 O
-            <CommentInputWrapper hasComments={hasComments}>
-              {clickedExamList.length > 0 && (
-                <>
-                  <DailyExamItemListWrapper>
+      {calendar && (
+        <>
+          <Tendency nickname={nickname} tendency={tendency} />
+          <Body>
+            <ExamListWrapper>
+              <ExamList exams={exams} />
+            </ExamListWrapper>
+            <Calendar
+              calendar={calendar}
+              selectedMonth={selectedMonth}
+              clickedDate={clickedDate}
+              setSelectedMonth={setSelectedMonth}
+              setClickedDate={setClickedDate}
+            />
+            {hasComments ? (
+              clickedDate === 0 ? (
+                // 댓글 O, 날짜 선택 X
+                <CommentInputWrapper hasComments={hasComments}>
+                  <CommentBlurWrapper>날짜 선택하고 댓글을 확인해 보시지 !</CommentBlurWrapper>
+                  <CommentItemListmWrapper>
+                    {randomComments
+                      .slice(0, randomComments.length < 3 ? randomComments.length : 4)
+                      .map((comment, index) => (
+                        <CommentItem
+                          key={index}
+                          characterNumber={comment.profileImageNumber}
+                          nickname={comment.nickname}
+                        >
+                          {comment.body}
+                        </CommentItem>
+                      ))}
+                  </CommentItemListmWrapper>
+                </CommentInputWrapper>
+              ) : (
+                // 댓글 O, 날짜 선택 O
+                <CommentInputWrapper hasComments={hasComments}>
+                  {clickedExamList.length > 0 && (
+                    <>
+                      <DailyExamItemListWrapper>
+                        <ClickedDateWrapper>
+                          <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
+                        </ClickedDateWrapper>
+                        {clickedExamList.map(({ name, d_day, color, month, date }, index) => (
+                          <DailyExamItem
+                            key={index}
+                            name={name}
+                            d_day={d_day}
+                            color={color}
+                            month={month}
+                            date={date}
+                          />
+                        ))}
+                      </DailyExamItemListWrapper>
+                      <ClickedDateWrapper>
+                        <Date>{clickedDate} 일</Date> 공부 이 정도는 해야지?
+                      </ClickedDateWrapper>
+                      <ExamTimeWrapper>
+                        <ExamTimeTitle />
+                        {clickedExamList.map(({ name, color, hour }, index) => (
+                          <ExamTime key={`${name}/${index}`} color={color} exam={name} time={hour} />
+                        ))}
+                      </ExamTimeWrapper>
+                    </>
+                  )}
+                  {comments.length > 0 && (
+                    <>
+                      <ClickedDateWrapper>
+                        <Date>{clickedDate} 일</Date> 댓글 보시지?
+                      </ClickedDateWrapper>
+                      <CommentInput hasComments={hasComments} onClickButton={onClickRegisterComment} />
+                      <CommentItemListmWrapper>
+                        {comments.map((info, index) => (
+                          <CommentItem key={index} characterNumber={info.profileImageNumber} nickname={info.nickname}>
+                            {info.body}
+                          </CommentItem>
+                        ))}
+                      </CommentItemListmWrapper>
+                    </>
+                  )}
+                </CommentInputWrapper>
+              )
+            ) : clickedDate === 0 ? (
+              // 댓글 X, 날짜 선택 X
+              <CommentInputWrapper hasComments={hasComments}>
+                <Text fontSize={16} letterSpacing={-0.5}>
+                  날짜 선택하고 댓글을 남겨보시지 !
+                </Text>
+                <CommentInput hasComments={hasComments} onClickButton={onClickRegisterComment} />
+              </CommentInputWrapper>
+            ) : (
+              // 댓글 X, 날짜 선택 O
+              <CommentInputWrapper hasComments={true}>
+                {clickedExamList.length > 0 && (
+                  <>
+                    <DailyExamItemListWrapper>
+                      <ClickedDateWrapper>
+                        <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
+                      </ClickedDateWrapper>
+                      {clickedExamList.map(({ name, d_day, color, month, date }, index) => (
+                        <DailyExamItem key={index} name={name} d_day={d_day} color={color} month={month} date={date} />
+                      ))}
+                    </DailyExamItemListWrapper>
                     <ClickedDateWrapper>
-                      <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
+                      <Date>{clickedDate} 일</Date> 공부 이 정도는 해야지?
                     </ClickedDateWrapper>
-                    {clickedExamList.map(({ name, d_day, color, month, date }, index) => (
-                      <DailyExamItem key={index} name={name} d_day={d_day} color={color} month={month} date={date} />
-                    ))}
-                  </DailyExamItemListWrapper>
-                  <ClickedDateWrapper>
-                    <Date>{clickedDate} 일</Date> 공부 이 정도는 해야지?
-                  </ClickedDateWrapper>
-                  <ExamTimeWrapper>
-                    <ExamTimeTitle />
-                    {clickedExamList.map(({ name, color, hour }, index) => (
-                      <ExamTime key={`${name}/${index}`} color={color} exam={name} time={hour} />
-                    ))}
-                  </ExamTimeWrapper>
-                </>
-              )}
-              {comments.length > 0 && (
-                <>
-                  <ClickedDateWrapper>
-                    <Date>{clickedDate} 일</Date> 댓글 보시지?
-                  </ClickedDateWrapper>
-                  <CommentInput hasComments={hasComments} onClickButton={onClickRegisterComment} />
+                    <ExamTimeWrapper>
+                      <ExamTimeTitle />
+                      {clickedExamList.map(({ name, color, hour }, index) => (
+                        <ExamTime key={`${name}/${index}`} color={color} exam={name} time={hour} />
+                      ))}
+                    </ExamTimeWrapper>
+                  </>
+                )}
+                <ClickedDateWrapper>
+                  <Date>{clickedDate} 일</Date> 댓글 보시지?
+                </ClickedDateWrapper>
+                <CommentInput hasComments={true} onClickButton={onClickRegisterComment} />
+                {comments.length > 0 && (
                   <CommentItemListmWrapper>
                     {comments.map((info, index) => (
                       <CommentItem key={index} characterNumber={info.profileImageNumber} nickname={info.nickname}>
@@ -212,65 +273,19 @@ const ResultPage = () => {
                       </CommentItem>
                     ))}
                   </CommentItemListmWrapper>
-                </>
-              )}
-            </CommentInputWrapper>
-          )
-        ) : clickedDate === 0 ? (
-          // 댓글 X, 날짜 선택 X
-          <CommentInputWrapper hasComments={hasComments}>
-            <Text fontSize={16} letterSpacing={-0.5}>
-              날짜 선택하고 댓글을 남겨보시지 !
-            </Text>
-            <CommentInput hasComments={hasComments} onClickButton={onClickRegisterComment} />
-          </CommentInputWrapper>
-        ) : (
-          // 댓글 X, 날짜 선택 O
-          <CommentInputWrapper hasComments={true}>
-            {clickedExamList.length > 0 && (
-              <>
-                <DailyExamItemListWrapper>
-                  <ClickedDateWrapper>
-                    <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
-                  </ClickedDateWrapper>
-                  {clickedExamList.map(({ name, d_day, color, month, date }, index) => (
-                    <DailyExamItem key={index} name={name} d_day={d_day} color={color} month={month} date={date} />
-                  ))}
-                </DailyExamItemListWrapper>
-                <ClickedDateWrapper>
-                  <Date>{clickedDate} 일</Date> 공부 이 정도는 해야지?
-                </ClickedDateWrapper>
-                <ExamTimeWrapper>
-                  <ExamTimeTitle />
-                  {clickedExamList.map(({ name, color, hour }, index) => (
-                    <ExamTime key={`${name}/${index}`} color={color} exam={name} time={hour} />
-                  ))}
-                </ExamTimeWrapper>
-              </>
+                )}
+              </CommentInputWrapper>
             )}
-            <ClickedDateWrapper>
-              <Date>{clickedDate} 일</Date> 댓글 보시지?
-            </ClickedDateWrapper>
-            <CommentInput hasComments={true} onClickButton={onClickRegisterComment} />
-            {comments.length > 0 && (
-              <CommentItemListmWrapper>
-                {comments.map((info, index) => (
-                  <CommentItem key={index} characterNumber={info.profileImageNumber} nickname={info.nickname}>
-                    {info.body}
-                  </CommentItem>
-                ))}
-              </CommentItemListmWrapper>
-            )}
-          </CommentInputWrapper>
-        )}
-        <ButtonWrapper>
-          <Button variant="M_4" onClick={onClickShare}>
-            <Icon icon="Share" />
-            <Text color={Theme.B_1}>달력 공유해 보시지</Text>
-          </Button>
-        </ButtonWrapper>
-        <ResetText>초기화 하기</ResetText>
-      </Body>
+            <ButtonWrapper>
+              <Button variant="M_4" onClick={onClickShare}>
+                <Icon icon="Share" />
+                <Text color={Theme.B_1}>달력 공유해 보시지</Text>
+              </Button>
+            </ButtonWrapper>
+            <ResetText>초기화 하기</ResetText>
+          </Body>
+        </>
+      )}
     </AppLayout>
   );
 };
