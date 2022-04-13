@@ -1,6 +1,6 @@
 import { createReducer } from 'typesafe-actions';
 
-import { postCalendarAsync, updateTendency } from '@/modules/calendar/actions';
+import { postCalendarAsync, updateTendency, updateCalendarFromServer } from '@/modules/calendar/actions';
 import { CalendarType, CalendarAction } from '@/modules/calendar/types';
 
 const initialState: CalendarType = {
@@ -19,17 +19,30 @@ const calendar = createReducer<CalendarType, CalendarAction>(initialState)
     ...state,
     tendency,
   }))
-  .handleAction(postCalendarAsync.success, (state, { payload: { tendency, accountId, calendar, exams } }) => ({
+  .handleAction(updateCalendarFromServer, (state, { payload: { nickname, tendency, accountId, calendar, exams } }) => ({
     ...state,
+    nickname,
     tendency,
     accountId,
     calendar,
     exams,
-    postCalendarSuccess: true,
   }))
+  .handleAction(
+    postCalendarAsync.success,
+    (state, { payload: { nickname, tendency, accountId, calendar, exams } }) => ({
+      ...state,
+      nickname,
+      tendency,
+      accountId,
+      calendar,
+      exams,
+      postCalendarSuccess: true,
+    }),
+  )
   .handleAction(postCalendarAsync.failure, (state, { payload: postCalendarError }) => ({
     ...state,
     postCalendarSuccess: false,
     postCalendarError,
   }));
+
 export default calendar;

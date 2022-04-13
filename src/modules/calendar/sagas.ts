@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { AxiosError } from 'axios';
 
 import { postCalendar } from '@/lib/api/calendar';
@@ -17,5 +17,5 @@ function* postCalendarSaga(action: ReturnType<typeof postCalendarAsync.request>)
 }
 
 export function* calendarSaga() {
-  yield takeEvery(POST_CALENDAR, postCalendarSaga);
+  yield takeLatest(POST_CALENDAR, postCalendarSaga);
 }
