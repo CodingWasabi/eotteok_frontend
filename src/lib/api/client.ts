@@ -10,7 +10,6 @@ const cookies = new Cookies();
 const J_SESSION_ID = cookies.get('JSESSIONID');
 
 document.cookie = `JSESSIONID=${J_SESSION_ID}`;
-console.log(document.cookie);
 
 client.defaults.baseURL = SERVER_URL;
 client.defaults.withCredentials = true;
