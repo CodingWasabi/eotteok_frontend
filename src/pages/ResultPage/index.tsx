@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import moment, { Moment } from 'moment';
 import { useParams } from 'react-router-dom';
 import useSWR from 'swr';
+import { useDispatch } from 'react-redux';
 
 import { comments, randomComments } from '@/mock';
 
@@ -10,8 +11,8 @@ import copyClipboard from '@/lib/util/copyClipboard';
 import { getPersonalCalendar } from '@/lib/api/calendar';
 
 import useMe from '@/hooks/useMe';
-import useNickname from '@/hooks/useNickname';
 import useCalendar from '@/hooks/useCalendar';
+import useCalendarActions from '@/hooks/useCalendarActions';
 
 import Calendar from '@/components/Calendar';
 
@@ -67,9 +68,10 @@ const setHasComments = (calendar: Array<ICalendar>, selectedMonth: number) => {
 
 const ResultPage = () => {
   const params = useParams();
+  const dispatch = useDispatch();
 
-  const { nickname } = useNickname();
-  const { tendency, calendar, exams } = useCalendar();
+  const { nickname, tendency, calendar, exams } = useCalendar();
+  const { dispatchCalendar } = useCalendarActions();
 
   const { me: accountId } = useMe();
 
@@ -90,16 +92,6 @@ const ResultPage = () => {
     requestAccountId ? () => getPersonalCalendar(requestAccountId) : null,
   );
 
-  console.log(
-    'requestAccountId: ',
-    requestAccountId,
-    'accountId: ',
-    accountId,
-    'accountIdFromParams: ',
-    accountIdFromParams,
-  );
-  console.log('data: ', data);
-
   const onClickRegisterComment = () => {
     alert('댓글 등록');
   };
@@ -110,6 +102,8 @@ const ResultPage = () => {
         copyClipboard(`http://3.34.94.220:3000/${accountId}`);
         return;
       }
+
+      alert('본인 달력만 공유가 가능해요!');
       return;
     }
     window.location.href = loginPath;
@@ -122,6 +116,16 @@ const ResultPage = () => {
     }
     setRequestAccountId(accountId);
   }, [accountId, accountIdFromParams]);
+
+  useEffect(() => {
+    if (data) {
+      dispatch(dispatchCalendar(data));
+    }
+  }, [data]);
+
+  useEffect(() => {
+    console.log('calendar: ', calendar);
+  }, [calendar]);
 
   useEffect(() => {
     if (!calendar) return;
