@@ -18,6 +18,7 @@ const Router = () => {
         <Route path="/nickname" element={<NicknamePage />} />
         <Route path="/survey" element={<SurveyPage />} />
         <Route path="/result" element={<ResultPage />} />
+        <Route path="/result/:accountId" element={<ResultPage />} />
         <Route path="/survey/edit/:userId" element={<ExamEditPage />} />
         <Route path="/loading" element={<LoadingPage />} />
         <Route path="*" element={<NotFoundPage />} />
