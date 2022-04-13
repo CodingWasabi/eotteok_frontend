@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import moment, { Moment } from 'moment';
 import { useParams } from 'react-router-dom';
+import useSWR from 'swr';
 
 import { comments, randomComments } from '@/mock';
 
 import { loginPath } from '@/lib/constants';
 import copyClipboard from '@/lib/util/copyClipboard';
+import { getPersonalCalendar } from '@/lib/api/calendar';
 
 import useMe from '@/hooks/useMe';
 import useNickname from '@/hooks/useNickname';
@@ -58,13 +60,18 @@ const setHasComments = (calendar: Array<ICalendar>, selectedMonth: number) => {
   return false;
 };
 
+// 로그인 o, 내 페이지 -> useMe의 accountId로 데이터 페칭 / accountId o, accountIdFromParams x
+// 로그인 o, 남의 페이지 -> accountIdFromParams로 데이터 페칭 / accountId o, accountIdFromParams o
+// 로그인 x, 내 페이지 -> 달력에서 꺼내옴 / accountId x, accountIdFromParams x
+// 로그인 x, 남의 페이지 -> accountIdFromParams로 데이터 페칭 / accountId x, accountIdFromParams o
+
 const ResultPage = () => {
   const params = useParams();
 
   const { nickname } = useNickname();
-  const { tendency, accountId, calendar, exams } = useCalendar();
+  const { tendency, calendar, exams } = useCalendar();
 
-  const { me, error } = useMe();
+  const { me: accountId } = useMe();
 
   const [getMoment, _] = useState<Moment>(moment());
   const [selectedMonth, setSelectedMonth] = useState<number>(Number(getMoment.format('M')));
@@ -74,18 +81,47 @@ const ResultPage = () => {
   const [clickedExamList, setClickedExamList] = useState<Array<IDailyToDos>>([]);
 
   const { accountId: accountIdFromParams } = params;
+  const [requestAccountId, setRequestAccountId] = useState<number>(
+    accountIdFromParams ? Number(accountIdFromParams) : accountId,
+  );
+
+  const { data, error } = useSWR(
+    [`/calendar/${requestAccountId}/result`, requestAccountId],
+    requestAccountId ? () => getPersonalCalendar(requestAccountId) : null,
+  );
+
+  console.log(
+    'requestAccountId: ',
+    requestAccountId,
+    'accountId: ',
+    accountId,
+    'accountIdFromParams: ',
+    accountIdFromParams,
+  );
+  console.log('data: ', data);
 
   const onClickRegisterComment = () => {
     alert('댓글 등록');
   };
 
   const onClickShare = () => {
-    if (me !== 'null : null' && me !== false) {
-      copyClipboard(`http://3.34.94.220:3000/${accountId || accountIdFromParams}`);
+    if (accountId) {
+      if (!accountIdFromParams) {
+        copyClipboard(`http://3.34.94.220:3000/${accountId}`);
+        return;
+      }
       return;
     }
     window.location.href = loginPath;
   };
+
+  useEffect(() => {
+    if (accountIdFromParams) {
+      setRequestAccountId(Number(accountIdFromParams));
+      return;
+    }
+    setRequestAccountId(accountId);
+  }, [accountId, accountIdFromParams]);
 
   useEffect(() => {
     if (!calendar) return;
