@@ -29,7 +29,7 @@ const PrepareTime = ({ init, number, prepareTime, children, onClickItem }: IPrep
   return (
     <Wrapper onClick={onClickItem}>
       <BorderImgWrapper init={init} isClicked={prepareTime === number}>
-        <Img src={`images/emotion/${number}.png`} alt="감정" />
+        <Img src={require(`../../../../public/images/emotion/${number}.png`)} alt="감정" />
         <ImgOverlay init={init} isClicked={prepareTime === number} />
       </BorderImgWrapper>
       <Text>{children}</Text>
