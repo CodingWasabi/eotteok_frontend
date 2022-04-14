@@ -28,14 +28,12 @@ const LoadingPage = () => {
 
   const { dispatchTendency } = useCalendarActions();
 
-  const randomNumber = Math.floor(Math.random() * 36) + 1;
-
   useEffect(() => {
     const body = setCalendarRequestBody({ nickname, answerList, dailyQuota, examInfoList });
 
     setTimeout(() => {
       dispatch(postCalendarAsync.request(body));
-    }, 2000);
+    }, 3000);
   }, []);
 
   useEffect(() => {
@@ -45,8 +43,20 @@ const LoadingPage = () => {
   }, [postCalendarSuccess]);
 
   useEffect(() => {
-    if (postCalendarError) {
+    if (!postCalendarError) return;
+
+    if (!postCalendarError.response) return;
+
+    const {
+      response: { status },
+    } = postCalendarError;
+
+    if (status === 400) {
       dispatchTendency(36);
+      navigate('/result');
+    }
+
+    if (status === 409) {
       navigate('/result');
     }
   }, [postCalendarError]);
@@ -54,7 +64,7 @@ const LoadingPage = () => {
   return (
     <AppLayout>
       <Body>
-        <img src={`/images/tendency/${randomNumber}.png`} alt="character" />
+        <img src={require(`../../../public/images/tendency/17.png`)} alt="character" />
         <Text fontSize={32}>결과 전송중</Text>
         <Icon icon="Spinner" width={100} height={100} />
       </Body>
