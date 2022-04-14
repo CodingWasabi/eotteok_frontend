@@ -31,8 +31,9 @@ const CharacterSelection = ({ hasComments }: ICharacterSelectionProps) => {
     <Wrapper>
       <CharacterWrapper>
         <Img
-          src={`images/comment/${selectedCharacterNumber}.png`}
+          src={require(`../../../../public/images/comment/${selectedCharacterNumber}.png`)}
           onClick={hasComments ? onClickCharacterList : undefined}
+          alt="캐릭터"
         />
         <IconWrapper onClick={hasComments ? onClickCharacterList : undefined}>
           <Icon icon="Arrow" color="#8E8E93" rotate={270} width={15} height={15} />
@@ -42,7 +43,12 @@ const CharacterSelection = ({ hasComments }: ICharacterSelectionProps) => {
         <RefWrapper>
           <CharacterListWrapper ref={characterListRef}>
             {arr.map((_, index) => (
-              <Img key={index} src={`images/comment/${index + 1}.png`} onClick={() => onClickCharacter(index + 1)} />
+              <Img
+                key={index}
+                src={require(`../../../../public/images/comment/${index + 1}.png`)}
+                onClick={() => onClickCharacter(index + 1)}
+                alt="캐릭터"
+              />
             ))}
           </CharacterListWrapper>
         </RefWrapper>
