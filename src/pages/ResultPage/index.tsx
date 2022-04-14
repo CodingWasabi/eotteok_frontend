@@ -172,10 +172,6 @@ const ResultPage = () => {
   }, [calendarFromServer]);
 
   useEffect(() => {
-    console.log('calendar: ', calendar);
-  }, [calendar]);
-
-  useEffect(() => {
     if (!calendar) return;
 
     setRequestDate(`2022-${setTime(selectedMonth)}-${setTime(clickedDate)}`);
@@ -195,12 +191,6 @@ const ResultPage = () => {
       setClickedExamList([]);
     };
   }, [selectedMonth, clickedDate]);
-
-  // if (error) {
-  //   navigate('/error');
-  // }
-
-  console.log('error: ', error, 'error.response: ', error?.response);
 
   useEffect(() => {
     if (!error) return;
