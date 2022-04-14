@@ -71,7 +71,7 @@ const ResultPage = () => {
 
   const { nickname, tendency, calendar, exams } = useCalendar();
   const { selectedCharacterNumber, comment } = useComment();
-  const { dispatchCalendar } = useCalendarActions();
+  const { dispatchUpdateState, dispatchCalendar } = useCalendarActions();
   const { updateComment } = useCommentActions();
 
   const { me: accountId } = useMe();
@@ -114,7 +114,7 @@ const ResultPage = () => {
 
     try {
       const res = await postComment({
-        userId: accountId,
+        userId: requestAccountId,
         date: requestDate,
         profileImageNumber: selectedCharacterNumber,
         body: comment,
@@ -145,6 +145,12 @@ const ResultPage = () => {
     }
     window.location.href = loginPath;
   };
+
+  useEffect(() => {
+    return () => {
+      dispatchUpdateState({ target: 'postCalendarError', value: null });
+    };
+  }, []);
 
   useEffect(() => {
     if (accountIdFromParams) {
