@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import moment, { Moment } from 'moment';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useSWR from 'swr';
 import { useDispatch } from 'react-redux';
 
 import { comments, randomComments } from '@/mock';
 
 import { loginPath } from '@/lib/constants';
+import setTime from '@/lib/util/setTime';
 import copyClipboard from '@/lib/util/copyClipboard';
-import { getPersonalCalendar } from '@/lib/api/calendar';
+import { getPersonalCalendar, getComments, postComment } from '@/lib/api/calendar';
 
 import useMe from '@/hooks/useMe';
+import useComment from '@/hooks/useComment';
 import useCalendar from '@/hooks/useCalendar';
+import useCommentActions from '@/hooks/useCommentActions';
 import useCalendarActions from '@/hooks/useCalendarActions';
 
 import Calendar from '@/components/Calendar';
@@ -32,6 +35,7 @@ import Text from '@/components/common/Text';
 import Icon from '@/components/Icon';
 
 import { ICalendar, IDailyToDos } from '@/types/calendar';
+import { IResponseGetComments } from '@/types/comment';
 
 import { Theme } from '@/styles/Theme';
 
@@ -68,10 +72,13 @@ const setHasComments = (calendar: Array<ICalendar>, selectedMonth: number) => {
 
 const ResultPage = () => {
   const params = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { nickname, tendency, calendar, exams } = useCalendar();
+  const { selectedCharacterNumber, comment } = useComment();
   const { dispatchCalendar } = useCalendarActions();
+  const { updateComment } = useCommentActions();
 
   const { me: accountId } = useMe();
 
@@ -81,29 +88,68 @@ const ResultPage = () => {
   const [clickedDate, setClickedDate] = useState<number>(0);
   const [hasComments, __] = useState<boolean>(setHasComments(calendar, selectedMonth));
   const [clickedExamList, setClickedExamList] = useState<Array<IDailyToDos>>([]);
+  const [requestDate, setRequestDate] = useState<string>('');
 
   const { accountId: accountIdFromParams } = params;
   const [requestAccountId, setRequestAccountId] = useState<number>(
     accountIdFromParams ? Number(accountIdFromParams) : accountId,
   );
 
-  const { data, error } = useSWR(
+  const { data: calendarFromServer, error } = useSWR(
     [`/calendar/${requestAccountId}/result`, requestAccountId],
     requestAccountId ? () => getPersonalCalendar(requestAccountId) : null,
   );
 
-  const onClickRegisterComment = () => {
+  const { data: comments, mutate } = useSWR(
+    [`/calendar/${requestAccountId}/result/comments?date=${requestDate}`, requestAccountId, requestDate],
+    requestAccountId && requestAccountId ? () => getComments({ userId: requestAccountId, date: requestDate }) : null,
+  );
+
+  console.log('comments: ', comments);
+
+  const onClickRegisterComment = async () => {
+    if (!accountId) {
+      const confirmFlag = confirm('로그인이 필요한 작업입니다.');
+
+      if (confirmFlag) {
+        navigate(loginPath);
+        return;
+      }
+      return;
+    }
+
+    try {
+      const res = await postComment({
+        userId: accountId,
+        date: requestDate,
+        profileImageNumber: selectedCharacterNumber,
+        body: comment,
+      });
+
+      if (res.status === 200) {
+        // 댓글 mutate
+        updateComment('');
+      }
+    } catch (e) {
+      alert('댓글 등록에 실패했습니다!');
+    }
+
     alert('댓글 등록');
   };
 
   const onClickShare = () => {
     if (accountId) {
       if (!accountIdFromParams) {
-        copyClipboard(`http://3.34.94.220:3000/${accountId}`);
+        copyClipboard(`http://3.34.94.220:3000/result/${accountId}`);
         return;
       }
 
-      alert('본인 달력만 공유가 가능해요!');
+      if (accountId !== accountIdFromParams) {
+        alert('본인 달력만 공유가 가능해요!');
+        mutate(comments);
+        return;
+      }
+
       return;
     }
     window.location.href = loginPath;
@@ -118,10 +164,10 @@ const ResultPage = () => {
   }, [accountId, accountIdFromParams]);
 
   useEffect(() => {
-    if (data) {
-      dispatch(dispatchCalendar(data));
+    if (calendarFromServer) {
+      dispatch(dispatchCalendar(calendarFromServer));
     }
-  }, [data]);
+  }, [calendarFromServer]);
 
   useEffect(() => {
     console.log('calendar: ', calendar);
@@ -129,6 +175,8 @@ const ResultPage = () => {
 
   useEffect(() => {
     if (!calendar) return;
+
+    setRequestDate(`2022-${setTime(selectedMonth)}-${setTime(clickedDate)}`);
 
     calendar.forEach((info) => {
       if (info.month === selectedMonth) {
@@ -212,7 +260,7 @@ const ResultPage = () => {
                       </ExamTimeWrapper>
                     </>
                   )}
-                  {comments.length > 0 && (
+                  {comments && comments?.length > 0 && (
                     <>
                       <ClickedDateWrapper>
                         <Date>{clickedDate} 일</Date> 댓글 보시지?
@@ -265,7 +313,7 @@ const ResultPage = () => {
                   <Date>{clickedDate} 일</Date> 댓글 보시지?
                 </ClickedDateWrapper>
                 <CommentInput hasComments={true} onClickButton={onClickRegisterComment} />
-                {comments.length > 0 && (
+                {comments && comments.length > 0 && (
                   <CommentItemListmWrapper>
                     {comments.map((info, index) => (
                       <CommentItem key={index} characterNumber={info.profileImageNumber} nickname={info.nickname}>
