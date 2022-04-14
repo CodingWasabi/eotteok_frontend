@@ -11,3 +11,8 @@ export type CalendarType = IResponsePostCalendar & {
   postCalendarSuccess: boolean;
   postCalendarError: AxiosError | null;
 };
+
+export type InitStateType = {
+  target: string;
+  value: number | string | boolean;
+};
