@@ -202,9 +202,21 @@ const ResultPage = () => {
 
   console.log('error: ', error, 'error.response: ', error?.response);
 
+  useEffect(() => {
+    if (!error) return;
+    const {
+      response: { status },
+    } = error;
+
+    if (status === 400) {
+      alert('존재하지 않는 사용자입니다!');
+      navigate('/error');
+    }
+  }, [error]);
+
   return (
     <AppLayout>
-      {calendar && (
+      {calendar.length > 0 && (
         <>
           <Tendency nickname={nickname} tendency={tendency} />
           <Body>
