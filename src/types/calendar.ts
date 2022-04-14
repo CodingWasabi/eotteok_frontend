@@ -17,9 +17,15 @@ export interface IMonthlyToDos {
   toDos: Array<IDailyToDos>;
 }
 
+interface ICommentCount {
+  date: string;
+  count: number;
+}
+
 export interface ICalendar {
   month: number;
   commentCount: number;
+  dailyCommentsCount: Array<ICommentCount>;
   toDos: Array<IMonthlyToDos>;
 }
 
