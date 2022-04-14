@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import moment, { Moment } from 'moment';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import useSWR from 'swr';
 import { useDispatch } from 'react-redux';
 
-import { comments, randomComments } from '@/mock';
+import { randomComments } from '@/mock';
 
 import { loginPath } from '@/lib/constants';
 import setTime from '@/lib/util/setTime';
@@ -35,7 +35,6 @@ import Text from '@/components/common/Text';
 import Icon from '@/components/Icon';
 
 import { ICalendar, IDailyToDos } from '@/types/calendar';
-import { IResponseGetComments } from '@/types/comment';
 
 import { Theme } from '@/styles/Theme';
 
@@ -65,15 +64,10 @@ const setHasComments = (calendar: Array<ICalendar>, selectedMonth: number) => {
   return false;
 };
 
-// 로그인 o, 내 페이지 -> useMe의 accountId로 데이터 페칭 / accountId o, accountIdFromParams x
-// 로그인 o, 남의 페이지 -> accountIdFromParams로 데이터 페칭 / accountId o, accountIdFromParams o
-// 로그인 x, 내 페이지 -> 달력에서 꺼내옴 / accountId x, accountIdFromParams x
-// 로그인 x, 남의 페이지 -> accountIdFromParams로 데이터 페칭 / accountId x, accountIdFromParams o
-
 const ResultPage = () => {
   const params = useParams();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { nickname, tendency, calendar, exams } = useCalendar();
   const { selectedCharacterNumber, comment } = useComment();
@@ -112,7 +106,7 @@ const ResultPage = () => {
       const confirmFlag = confirm('로그인이 필요한 작업입니다.');
 
       if (confirmFlag) {
-        navigate(loginPath);
+        window.location.href = loginPath;
         return;
       }
       return;
@@ -127,14 +121,12 @@ const ResultPage = () => {
       });
 
       if (res.status === 200) {
-        // 댓글 mutate
         updateComment('');
+        mutate(comments);
       }
     } catch (e) {
-      alert('댓글 등록에 실패했습니다!');
+      alert('시험 준비 기간 및 시험 날짜에만 댓글 등록이 가능합니다!');
     }
-
-    alert('댓글 등록');
   };
 
   const onClickShare = () => {
@@ -146,7 +138,6 @@ const ResultPage = () => {
 
       if (accountId !== accountIdFromParams) {
         alert('본인 달력만 공유가 가능해요!');
-        mutate(comments);
         return;
       }
 
@@ -193,6 +184,10 @@ const ResultPage = () => {
       setClickedExamList([]);
     };
   }, [selectedMonth, clickedDate]);
+
+  if (error) {
+    navigate('/error');
+  }
 
   return (
     <AppLayout>
