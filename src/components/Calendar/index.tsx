@@ -75,7 +75,6 @@ const Calendar = ({ calendar, selectedMonth, clickedDate, setSelectedMonth, setC
               const month = Number(day.format('M'));
 
               let colors: Array<number> = [];
-              let toDoYear;
               let toDoMonth;
               let toDoDate;
               let toDoCommentCount = 0;
@@ -88,10 +87,10 @@ const Calendar = ({ calendar, selectedMonth, clickedDate, setSelectedMonth, setC
 
               // 시험이 있는 날짜
               for (let i = 0; i < calendarInfo?.toDos.length; i++) {
-                [toDoYear, toDoMonth, toDoDate] = calendarInfo.toDos[i].date.split('-');
+                [, toDoMonth, toDoDate] = calendarInfo.toDos[i].date.split('-');
 
                 for (let j = 0; j < calendarInfo.dailyCommentsCount.length; j++) {
-                  const [commentYear, commentMonth, commentDate] = calendarInfo.dailyCommentsCount[j].date.split('-');
+                  const [, commentMonth, commentDate] = calendarInfo.dailyCommentsCount[j].date.split('-');
 
                   if (Number(commentDate) === date) {
                     if (Number(commentMonth) === month) {
