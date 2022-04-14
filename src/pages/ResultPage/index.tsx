@@ -100,7 +100,9 @@ const ResultPage = () => {
 
   const { data: comments, mutate: commentMutate } = useSWR(
     [`/calendar/${requestAccountId}/result/comments?date=${requestDate}`, requestAccountId, requestDate, clickedDate],
-    requestAccountId && requestAccountId ? () => getComments({ userId: requestAccountId, date: requestDate }) : null,
+    requestAccountId && requestAccountId && clickedDate
+      ? () => getComments({ userId: requestAccountId, date: requestDate })
+      : null,
   );
 
   const onClickRegisterComment = async () => {
@@ -197,6 +199,8 @@ const ResultPage = () => {
   // if (error) {
   //   navigate('/error');
   // }
+
+  console.log('error: ', error, 'error.response: ', error?.response);
 
   return (
     <AppLayout>
