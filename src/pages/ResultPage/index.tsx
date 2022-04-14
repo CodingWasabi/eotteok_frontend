@@ -89,17 +89,19 @@ const ResultPage = () => {
     accountIdFromParams ? Number(accountIdFromParams) : accountId,
   );
 
-  const { data: calendarFromServer, error } = useSWR(
+  const {
+    data: calendarFromServer,
+    error,
+    mutate: calendarMutate,
+  } = useSWR(
     [`/calendar/${requestAccountId}/result`, requestAccountId],
     requestAccountId ? () => getPersonalCalendar(requestAccountId) : null,
   );
 
-  const { data: comments, mutate } = useSWR(
-    [`/calendar/${requestAccountId}/result/comments?date=${requestDate}`, requestAccountId, requestDate],
+  const { data: comments, mutate: commentMutate } = useSWR(
+    [`/calendar/${requestAccountId}/result/comments?date=${requestDate}`, requestAccountId, requestDate, clickedDate],
     requestAccountId && requestAccountId ? () => getComments({ userId: requestAccountId, date: requestDate }) : null,
   );
-
-  console.log('comments: ', comments);
 
   const onClickRegisterComment = async () => {
     if (!accountId) {
@@ -122,7 +124,8 @@ const ResultPage = () => {
 
       if (res.status === 200) {
         updateComment('');
-        mutate(comments);
+        calendarMutate(calendarFromServer);
+        commentMutate(comments);
       }
     } catch (e) {
       alert('시험 준비 기간 및 시험 날짜에만 댓글 등록이 가능합니다!');
@@ -191,9 +194,9 @@ const ResultPage = () => {
     };
   }, [selectedMonth, clickedDate]);
 
-  if (error) {
-    navigate('/error');
-  }
+  // if (error) {
+  //   navigate('/error');
+  // }
 
   return (
     <AppLayout>
