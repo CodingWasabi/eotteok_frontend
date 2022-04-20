@@ -3,7 +3,7 @@ import { persistReducer } from 'redux-persist';
 import { all } from 'redux-saga/effects';
 import session from 'redux-persist/lib/storage/session';
 
-import survey from '@/modules/survey';
+import survey, { surveySaga } from '@/modules/survey';
 import nickname from '@/modules/nickname';
 import comment from '@/modules/comment';
 import calendar, { calendarSaga } from '@/modules/calendar';
@@ -25,5 +25,5 @@ export default persistReducer(persistConfig, rootReducer);
 export type RootState = ReturnType<typeof rootReducer>;
 
 export function* rootSaga() {
-  yield all([calendarSaga()]);
+  yield all([calendarSaga(), surveySaga()]);
 }
