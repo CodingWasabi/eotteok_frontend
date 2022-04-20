@@ -1,5 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+
+import useCalendar from '@/hooks/useCalendar';
 
 import Icon from '@/components/Icon';
 import Text from '@/components/common/Text';
@@ -10,6 +12,16 @@ import AppLayout from '@/components/common/AppLayout';
 import { Body, LogoWrapper, LogoPencilWrapper } from './style';
 
 const MainPage = () => {
+  const navigate = useNavigate();
+
+  const { calendar } = useCalendar();
+
+  useEffect(() => {
+    if (calendar.length > 0) {
+      navigate('/result');
+    }
+  }, [calendar]);
+
   return (
     <AppLayout>
       <Body>
