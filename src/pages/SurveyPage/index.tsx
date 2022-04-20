@@ -72,7 +72,7 @@ const SurveyPage = () => {
             <ExamListContainer>
               {examInfoList.map((exam: ExamInfoType, index: number) => (
                 <ExamItem key={index} id={index} isEdit={isEdit} isSelected={examInfoId === index}>
-                  {exam.exam}
+                  {exam.name}
                 </ExamItem>
               ))}
             </ExamListContainer>

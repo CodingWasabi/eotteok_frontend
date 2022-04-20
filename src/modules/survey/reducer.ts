@@ -19,7 +19,7 @@ const initialState: SurveyType = {
 
   answerList: [],
 
-  exam: '',
+  name: '',
   examInfoId: -1,
   examInfoList: [],
 
@@ -52,10 +52,10 @@ const survey = createReducer<SurveyType, SurveyAction>(initialState)
     ...state,
     [target]: value,
   }))
-  .handleAction(registerExamInfo, (state, { payload: { exam, year, month, date, hour, minute, prepareTime } }) => ({
+  .handleAction(registerExamInfo, (state, { payload: { name, year, month, date, hour, minute, prepareTime } }) => ({
     ...state,
     examInfoList: state.examInfoList.concat({
-      exam,
+      name,
       year,
       month,
       date,
@@ -66,7 +66,7 @@ const survey = createReducer<SurveyType, SurveyAction>(initialState)
   }))
   .handleAction(initializeExamInfo, (state) => ({
     ...state,
-    exam: '',
+    name: '',
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     date: new Date().getDate(),

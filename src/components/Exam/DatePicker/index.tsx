@@ -72,7 +72,7 @@ const DatePicker = () => {
   useEffect(() => {
     if (subjectInfo) {
       dispatchIsFilled({ target: 'isFilledDate', isFilled: true });
-      updateExamScheduleInfo({ target: 'exam', value: subjectInfo.exam });
+      updateExamScheduleInfo({ target: 'name', value: subjectInfo.name });
       updateExamScheduleInfo({ target: 'month', value: subjectInfo.month });
       updateExamScheduleInfo({ target: 'date', value: subjectInfo.date });
     }

@@ -42,7 +42,7 @@ const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelection
   const {
     dailyQuota,
     answerList: storeAnswerList,
-    exam,
+    name,
     examInfoId,
     year,
     month,
@@ -90,17 +90,17 @@ const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelection
   };
 
   const onChangeExamName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateExamScheduleInfo({ target: 'exam', value: e.target.value });
+    updateExamScheduleInfo({ target: 'name', value: e.target.value });
   };
 
   const onClickRegisterExamInfo = () => {
-    registerExam({ exam, year, month, date, hour, minute, prepareTime });
+    registerExam({ name, year, month, date, hour, minute, prepareTime });
     initExamInfo();
     updateExamScheduleInfo({ target: ' prepareTime', value: 0 });
   };
 
   const onClickEditExamInfo = () => {
-    editExam({ examInfoId, exam, year, month, date, hour, minute, prepareTime });
+    editExam({ examInfoId, name, year, month, date, hour, minute, prepareTime });
     initExamInfo();
     updateExamScheduleInfo({ target: ' prepareTime', value: 0 });
     updateExamScheduleInfo({ target: 'examInfoId', value: -1 });
@@ -140,7 +140,7 @@ const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelection
                   {title}
                 </Text>
               </TextCenterWrapper>
-              <Input value={exam} onChangeInput={onChangeExamName} />
+              <Input value={name} onChangeInput={onChangeExamName} />
               <DatePicker />
               <TimePicker />
               <Text fontSize={18} letterSpacing={-0.5}>
@@ -201,7 +201,7 @@ const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelection
         {progressStep === 5 ? (
           <Button
             variant={examInfoId === -1 ? 'add' : 'M_4'}
-            isFilled={(exam ? true : false) && isFilledDate && isFilledTime && isFilledPrepareTime}
+            isFilled={(name ? true : false) && isFilledDate && isFilledTime && isFilledPrepareTime}
             onClick={examInfoId === -1 ? onClickRegisterExamInfo : onClickEditExamInfo}
           >
             {examInfoId === -1 ? '등록하기' : '수정하기'}

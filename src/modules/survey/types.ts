@@ -6,7 +6,7 @@ export type SurveyAction = ActionType<typeof actions>;
 export type AnswerListType = Array<number>;
 
 export type ExamInfoType = {
-  exam: string;
+  name: string;
 
   year: number;
   month: number;
@@ -23,7 +23,7 @@ export type SurveyType = {
 
   answerList: AnswerListType;
 
-  exam: string;
+  name: string;
   examInfoId: number;
   examInfoList: ExamInfoListType;
 
