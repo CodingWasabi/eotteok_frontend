@@ -1,4 +1,4 @@
-import setTime from '@/lib/util/setTime';
+import setDate from '@/lib/util/setDate';
 
 import { ExamInfoType } from '@/modules/survey';
 
@@ -14,11 +14,11 @@ const setCalendarRequestBody = ({ nickname, answerList, dailyQuota, examInfoList
     nickname,
     answers: answerList,
     dailyQuota,
-    exams: examInfoList.map((info: ExamInfoType) => {
+    exams: examInfoList.map(({ name, year, month, date, hour, minute, prepareTime }) => {
       return {
-        name: info.exam,
-        date: `${info.year}/${setTime(info.month)}/${setTime(info.date)} ${setTime(info.hour)}:${setTime(info.minute)}`,
-        prepareTime: info.prepareTime,
+        name,
+        date: setDate({ year, month, date, hour, minute }),
+        prepareTime,
       };
     }),
   };
