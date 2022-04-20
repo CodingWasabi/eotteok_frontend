@@ -72,12 +72,6 @@ const ExamEditPage = () => {
   // };
 
   const onClickEditExamInfo = async () => {
-    editExam({ examInfoId, name, year, month, date, hour, minute, prepareTime });
-    initExamInfo();
-    updateExamScheduleInfo({ target: ' prepareTime', value: 0 });
-    updateExamScheduleInfo({ target: 'examInfoId', value: -1 });
-    updateExamScheduleInfo({ target: 'isEdit', value: false });
-
     try {
       const requestDate = setDate({ year, month, date, hour, minute });
 
@@ -98,6 +92,11 @@ const ExamEditPage = () => {
       const res = await putMyExam(requestExamInfoList);
 
       if (res.status === 200) {
+        editExam({ examInfoId, name, year, month, date, hour, minute, prepareTime });
+        initExamInfo();
+        updateExamScheduleInfo({ target: ' prepareTime', value: 0 });
+        updateExamScheduleInfo({ target: 'examInfoId', value: -1 });
+        updateExamScheduleInfo({ target: 'isEdit', value: false });
         alert('수정 완료!');
         navigate('/result');
       }
