@@ -31,7 +31,7 @@ const SurveyPage = () => {
   const { dispatchTendency } = useCalendarActions();
 
   const { nickname } = useNickname();
-  const { accountId, calendar, postCalendarError } = useCalendar();
+  const { calendar, postCalendarError } = useCalendar();
   const { answerList, dailyQuota, examInfoList, isEdit, examInfoId } = useSurvey();
 
   const [percentage, setPercentage] = useState<number>(0);
