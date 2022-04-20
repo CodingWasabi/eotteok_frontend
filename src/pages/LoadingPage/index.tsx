@@ -14,7 +14,6 @@ import { postCalendarAsync } from '@/modules/calendar';
 import Icon from '@/components/Icon';
 
 import AppLayout from '@/components/common/AppLayout';
-import Text from '@/components/common/Text';
 
 import { Body } from './style';
 
@@ -65,7 +64,6 @@ const LoadingPage = () => {
     <AppLayout>
       <Body>
         <img src={require(`../../../public/images/tendency/17.png`)} alt="character" />
-        <Text fontSize={32}>결과 전송중</Text>
         <Icon icon="Spinner" width={100} height={100} />
       </Body>
     </AppLayout>
