@@ -7,4 +7,4 @@ export const getMyCalendar = () => client.get<IResponsePostCalendar>('/my/calend
 
 export const getMyExam = () => client.get('/my/exam').then((res) => res.data);
 
-export const putMyExam = (body: Array<IExam>) => client.put('/my/exam');
+export const putMyExam = (body: Array<IExam>) => client.put('/my/exams', { exams: body });
