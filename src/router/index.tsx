@@ -20,7 +20,7 @@ const Router = () => {
         <Route path="/survey" element={<SurveyPage />} />
         <Route path="/result" element={<ResultPage />} />
         <Route path="/result/:accountId" element={<ResultPage />} />
-        <Route path="/survey/edit/:userId" element={<ExamEditPage />} />
+        <Route path="/exam/edit" element={<ExamEditPage />} />
         <Route path="/loading" element={<LoadingPage />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="*" element={<NotFoundPage />} />
