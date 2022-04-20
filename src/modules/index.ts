@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import { all } from 'redux-saga/effects';
-import storage from 'redux-persist/lib/storage';
+import session from 'redux-persist/lib/storage/session';
 
 import survey from '@/modules/survey';
 import nickname from '@/modules/nickname';
@@ -10,7 +10,7 @@ import calendar, { calendarSaga } from '@/modules/calendar';
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage: session,
 };
 
 const rootReducer = combineReducers({
