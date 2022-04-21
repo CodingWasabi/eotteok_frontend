@@ -18,5 +18,8 @@ export const Header = styled(Link)`
   align-items: center;
   justify-content: center;
 
+  width: 122px;
   height: 65px;
+
+  margin: 0 auto;
 `;
