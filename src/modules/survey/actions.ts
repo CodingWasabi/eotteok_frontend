@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 
 import createRequestActionTypes from '@/lib/util/createRequestActionTypes';
 
-import { IsFilledType, ExamScheduleType, ExamInfoType, ExamInfoIdType, ExamInfoListType } from '@/modules/survey';
+import { IsFilledType, ExamScheduleType, ExamInfoType, ExamInfoIdType, GetExamInfoListType } from '@/modules/survey';
 
 /**
  * 액션 타입
@@ -40,6 +40,6 @@ export const updateExamList = createAction(UPDATE_EXAM_LIST)<Array<ExamInfoType>
  */
 export const getMyExamListAsync = createAsyncAction(GET_EXAM_LIST, GET_EXAM_LIST_SUCCESS, GET_EXAM_LIST_FAILURE)<
   number,
-  ExamInfoListType,
+  GetExamInfoListType,
   AxiosError
 >();

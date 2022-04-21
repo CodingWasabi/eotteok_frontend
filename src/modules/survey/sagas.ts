@@ -5,11 +5,11 @@ import { getMyExamList } from '@/lib/api/my';
 
 import { getMyExamListAsync, GET_EXAM_LIST } from '@/modules/survey';
 
-import { ExamInfoListType } from '@/modules/survey/types';
+import { GetExamInfoListType } from '@/modules/survey/types';
 
 function* getMyExamListSaga(action: ReturnType<typeof getMyExamListAsync.request>) {
   try {
-    const res: ExamInfoListType = yield call(getMyExamList, action.payload);
+    const res: GetExamInfoListType = yield call(getMyExamList, action.payload);
     yield put(getMyExamListAsync.success(res));
   } catch (e: unknown) {
     yield put(getMyExamListAsync.failure(e as AxiosError));

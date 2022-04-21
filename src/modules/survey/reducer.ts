@@ -9,6 +9,7 @@ import {
   updateExamInfoId,
   editExamInfo,
   updateExamList,
+  getMyExamListAsync,
 } from '@/modules/survey/actions';
 import { SurveyType, SurveyAction } from '@/modules/survey/types';
 
@@ -37,6 +38,9 @@ const initialState: SurveyType = {
   isFilledDate: false,
   isFilledTime: false,
   isFilledPrepareTime: false,
+
+  getMyExamListSuccess: false,
+  getMyExamListError: null,
 };
 
 const survey = createReducer<SurveyType, SurveyAction>(initialState)
@@ -88,6 +92,17 @@ const survey = createReducer<SurveyType, SurveyAction>(initialState)
   .handleAction(updateExamList, (state, { payload: examInfoList }) => ({
     ...state,
     examInfoList,
+  }))
+  .handleAction(getMyExamListAsync.success, (state, { payload: { exams: examInfoList } }) => ({
+    ...state,
+    examInfoList,
+    getMyExamListSuccess: true,
+    getMyExamListError: null,
+  }))
+  .handleAction(getMyExamListAsync.failure, (state, { payload: getMyExamListError }) => ({
+    ...state,
+    getMyExamListSuccess: false,
+    getMyExamListError,
   }));
 
 export default survey;
