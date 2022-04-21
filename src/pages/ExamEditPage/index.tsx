@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { prepareTimeList } from '@/lib/constants';
 import { putMyExam } from '@/lib/api/my';
@@ -8,7 +9,7 @@ import setDate from '@/lib/util/setDate';
 import useSurvey from '@/hooks/useSurvey';
 import useSurveyActions from '@/hooks/useSurveyActions';
 
-import { ExamInfoType } from '@/modules/survey';
+import { ExamInfoType, getMyExamListAsync } from '@/modules/survey';
 
 import Input from '@/components/Exam/Input';
 import DatePicker from '@/components/Exam/DatePicker';
@@ -29,11 +30,11 @@ import {
   TextCenterWrapper,
   ExamInfoListWrapper,
   ExamListContainer,
-  TextWrapper,
 } from './style';
 
 const ExamEditPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { state } = useLocation();
 
   const {
@@ -75,7 +76,7 @@ const ExamEditPage = () => {
     try {
       const requestDate = setDate({ year, month, date, hour, minute });
 
-      const requestExamInfoList = examInfoList.map((info, index) =>
+      const requestExamInfoList = examInfoList.map(({ name, year, month, date, hour, minute, prepareTime }, index) =>
         index === examInfoId
           ? {
               name,
@@ -83,9 +84,9 @@ const ExamEditPage = () => {
               prepareTime,
             }
           : {
-              name: info.name,
-              date: requestDate,
-              prepareTime: info.prepareTime,
+              name: name,
+              date: setDate({ year, month, date, hour, minute }),
+              prepareTime: prepareTime,
             },
       );
 
@@ -115,6 +116,7 @@ const ExamEditPage = () => {
 
   useEffect(() => {
     updateExamScheduleInfo({ target: 'examInfoId', value: state ? state : 0 });
+    dispatch(getMyExamListAsync.request(1));
   }, []);
 
   return (
@@ -157,7 +159,7 @@ const ExamEditPage = () => {
           <Text letterSpacing={-0.5}>&lt;시험 리스트&gt;</Text>
         </TextCenterWrapper>
         <ExamInfoListWrapper>
-          {examInfoList.length > 0 ? (
+          {examInfoList.length > 0 && (
             <ExamListContainer>
               {examInfoList.map((exam: ExamInfoType, index: number) => (
                 <ExamItem key={index} id={index} isEdit={isEdit} isSelected={examInfoId === index}>
@@ -165,11 +167,6 @@ const ExamEditPage = () => {
                 </ExamItem>
               ))}
             </ExamListContainer>
-          ) : (
-            <TextWrapper>
-              시험정보를 등록하면 <br />
-              리스트를 볼 수 있어요!
-            </TextWrapper>
           )}
           <Button variant="M_2" onClick={onClickPreviousButton}>
             <Icon icon="Arrow" width={5} height={11} />
