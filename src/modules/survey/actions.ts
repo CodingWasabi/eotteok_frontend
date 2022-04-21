@@ -39,7 +39,7 @@ export const updateExamList = createAction(UPDATE_EXAM_LIST)<Array<ExamInfoType>
  * 사가 생성 함수
  */
 export const getMyExamListAsync = createAsyncAction(GET_EXAM_LIST, GET_EXAM_LIST_SUCCESS, GET_EXAM_LIST_FAILURE)<
-  number,
+  undefined,
   GetExamInfoListType,
   AxiosError
 >();

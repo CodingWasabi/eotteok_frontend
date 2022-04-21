@@ -7,9 +7,9 @@ import { getMyExamListAsync, GET_EXAM_LIST } from '@/modules/survey';
 
 import { GetExamInfoListType } from '@/modules/survey/types';
 
-function* getMyExamListSaga(action: ReturnType<typeof getMyExamListAsync.request>) {
+function* getMyExamListSaga() {
   try {
-    const res: GetExamInfoListType = yield call(getMyExamList, action.payload);
+    const res: GetExamInfoListType = yield call(getMyExamList);
     yield put(getMyExamListAsync.success(res));
   } catch (e: unknown) {
     yield put(getMyExamListAsync.failure(e as AxiosError));

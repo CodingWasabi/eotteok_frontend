@@ -116,7 +116,7 @@ const ExamEditPage = () => {
 
   useEffect(() => {
     updateExamScheduleInfo({ target: 'examInfoId', value: state ? state : 0 });
-    dispatch(getMyExamListAsync.request(1));
+    dispatch(getMyExamListAsync.request());
   }, []);
 
   return (
