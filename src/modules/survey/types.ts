@@ -1,4 +1,6 @@
 import { ActionType } from 'typesafe-actions';
+import { AxiosError } from 'axios';
+
 import * as actions from './actions';
 
 export type SurveyAction = ActionType<typeof actions>;
@@ -41,9 +43,16 @@ export type SurveyType = {
   isFilledDate: boolean;
   isFilledTime: boolean;
   isFilledPrepareTime: boolean;
+
+  getMyExamListSuccess: boolean;
+  getMyExamListError: AxiosError | null;
 };
 
 export type ExamInfoListType = Array<ExamInfoType>;
+
+export type GetExamInfoListType = {
+  exams: ExamInfoListType;
+};
 
 export type IsFilledType = {
   target: string;
