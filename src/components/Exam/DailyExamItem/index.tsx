@@ -28,7 +28,7 @@ const DailyExamItem = ({ name, month, date, d_day, color }: IDailyExamItemProps)
         <Text fontSize={21} letterSpacing={-0.5} color={Theme.T_3}>
           {month} / {date}
         </Text>
-        <Text fontSize={21} letterSpacing={-0.5} color={colorList[color - 1]}>
+        <Text fontSize={21} letterSpacing={-0.5} color={colorList[color]}>
           {d_day === 0 ? 'D - day' : `D - ${d_day}`}
         </Text>
       </Container>

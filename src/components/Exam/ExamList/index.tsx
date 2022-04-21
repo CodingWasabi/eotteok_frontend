@@ -1,8 +1,10 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import setTime from '@/lib/util/setTime';
-import { colorList } from '@/lib/constants';
+import { colorList, loginPath } from '@/lib/constants';
+
+import useMe from '@/hooks/useMe';
 
 import Icon from '@/components/Icon';
 
@@ -31,9 +33,26 @@ export interface IExamListProps {
 
 const ExamList = ({ exams }: IExamListProps) => {
   const navigate = useNavigate();
+  const params = useParams();
 
-  const onClickPencilIcon = () => {
-    navigate('/survey/edit/1');
+  const { accountId: accountIdFromParams } = params;
+
+  const { me: accountId } = useMe();
+
+  const onClickPencilIcon = (examNumber: number) => {
+    if (!accountId) {
+      alert('로그인이 필요합니다!');
+      window.location.href = loginPath;
+      return;
+    }
+
+    if (accountIdFromParams !== undefined) {
+      if (accountId !== accountIdFromParams) {
+        return;
+      }
+    }
+
+    navigate('/exam/edit', { state: examNumber });
   };
 
   return (
@@ -59,7 +78,7 @@ const ExamList = ({ exams }: IExamListProps) => {
                 D-{data.d_day}
               </Text>
             </ExamInfoWrapper>
-            <IconWrapper onClick={onClickPencilIcon}>
+            <IconWrapper onClick={() => onClickPencilIcon(index)}>
               <Icon icon="Pencil" color={Theme.T_1} width={14} height={14} />
             </IconWrapper>
           </Container>

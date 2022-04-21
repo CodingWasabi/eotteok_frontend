@@ -18,7 +18,7 @@ export const Img = styled.img`
 `;
 
 export const Text = styled.span<{ fontColor?: string }>`
-  font-size: 16px;
+  font-size: 18px;
   letter-spacing: -0.5px;
   color: ${({ fontColor }) => fontColor ?? Theme.T_1};
 `;

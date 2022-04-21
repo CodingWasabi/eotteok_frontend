@@ -1,4 +1,6 @@
 import { ActionType } from 'typesafe-actions';
+import { AxiosError } from 'axios';
+
 import * as actions from './actions';
 
 export type SurveyAction = ActionType<typeof actions>;
@@ -6,7 +8,7 @@ export type SurveyAction = ActionType<typeof actions>;
 export type AnswerListType = Array<number>;
 
 export type ExamInfoType = {
-  exam: string;
+  name: string;
 
   year: number;
   month: number;
@@ -19,9 +21,11 @@ export type ExamInfoType = {
 };
 
 export type SurveyType = {
+  dailyQuota: number;
+
   answerList: AnswerListType;
 
-  exam: string;
+  name: string;
   examInfoId: number;
   examInfoList: ExamInfoListType;
 
@@ -39,9 +43,16 @@ export type SurveyType = {
   isFilledDate: boolean;
   isFilledTime: boolean;
   isFilledPrepareTime: boolean;
+
+  getMyExamListSuccess: boolean;
+  getMyExamListError: AxiosError | null;
 };
 
 export type ExamInfoListType = Array<ExamInfoType>;
+
+export type GetExamInfoListType = {
+  exams: ExamInfoListType;
+};
 
 export type IsFilledType = {
   target: string;

@@ -13,7 +13,7 @@ export interface ICommentItemProps {
 const CommentItem = ({ characterNumber, nickname, children }: ICommentItemProps) => {
   return (
     <Wrapper>
-      <Img src={`images/comment/${characterNumber}.png`} alt="캐릭터" />
+      <Img src={require(`../../../../public/images/comment/${characterNumber}.png`)} alt="캐릭터" />
       <Text fontColor={colorList[characterNumber - 1]}>{nickname}</Text>
       <Text>{children}</Text>
     </Wrapper>

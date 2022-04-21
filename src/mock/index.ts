@@ -58,10 +58,20 @@ export const myCalenderResult = {
     {
       month: 3,
       commentCount: 32, // 월 기준 댓글 개수
+      dailyCommentsCount: [
+        {
+          date: '2022-03-02',
+          count: 4,
+        },
+        {
+          date: '2022-03-12',
+          count: 5,
+        },
+      ],
       toDos: [
         {
           date: '2022-03-02', // 해당 날짜
-          commentCount: 4, // 해당 날짜 댓글 개수
+          // commentCount: 4, // 해당 날짜 댓글 개수
           toDos: [
             {
               name: '데이터 분석 및 활용',
@@ -100,10 +110,20 @@ export const myCalenderResult = {
     {
       month: 4,
       commentCount: 32, // 월 기준 댓글 개수
+      dailyCommentsCount: [
+        {
+          date: '2022-04-12',
+          count: 4,
+        },
+        {
+          date: '2022-04-22',
+          count: 1,
+        },
+      ],
       toDos: [
         {
           date: '2022-04-02', // 해당 날짜
-          commentCount: 4, // 해당 날짜 댓글 개수
+          // commentCount: 4, // 해당 날짜 댓글 개수
           toDos: [
             {
               name: '데이터 분석 및 활용1',

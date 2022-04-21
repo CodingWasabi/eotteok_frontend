@@ -110,3 +110,7 @@ export const ClickedDateWrapper = styled.div`
 export const Date = styled.span`
   box-shadow: inset 0 0px 0 white, inset 0 -1px 0 black;
 `;
+
+export const ExamTimeWrapper = styled.div`
+  margin-bottom: 50px;
+`;

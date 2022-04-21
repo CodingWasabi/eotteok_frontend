@@ -8,15 +8,19 @@ import {
   initializeExamInfo,
   updateExamInfoId,
   editExamInfo,
+  updateExamList,
+  getMyExamListAsync,
 } from '@/modules/survey/actions';
 import { SurveyType, SurveyAction } from '@/modules/survey/types';
 
 const date = new Date();
 
 const initialState: SurveyType = {
+  dailyQuota: 0,
+
   answerList: [],
 
-  exam: '',
+  name: '',
   examInfoId: -1,
   examInfoList: [],
 
@@ -34,6 +38,9 @@ const initialState: SurveyType = {
   isFilledDate: false,
   isFilledTime: false,
   isFilledPrepareTime: false,
+
+  getMyExamListSuccess: false,
+  getMyExamListError: null,
 };
 
 const survey = createReducer<SurveyType, SurveyAction>(initialState)
@@ -49,10 +56,10 @@ const survey = createReducer<SurveyType, SurveyAction>(initialState)
     ...state,
     [target]: value,
   }))
-  .handleAction(registerExamInfo, (state, { payload: { exam, year, month, date, hour, minute, prepareTime } }) => ({
+  .handleAction(registerExamInfo, (state, { payload: { name, year, month, date, hour, minute, prepareTime } }) => ({
     ...state,
     examInfoList: state.examInfoList.concat({
-      exam,
+      name,
       year,
       month,
       date,
@@ -63,7 +70,7 @@ const survey = createReducer<SurveyType, SurveyAction>(initialState)
   }))
   .handleAction(initializeExamInfo, (state) => ({
     ...state,
-    exam: '',
+    name: '',
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     date: new Date().getDate(),
@@ -81,6 +88,21 @@ const survey = createReducer<SurveyType, SurveyAction>(initialState)
   .handleAction(editExamInfo, (state, { payload: { examInfoId, ...examInfo } }) => ({
     ...state,
     examInfoList: state.examInfoList.map((info, index) => (index === examInfoId ? examInfo : info)),
+  }))
+  .handleAction(updateExamList, (state, { payload: examInfoList }) => ({
+    ...state,
+    examInfoList,
+  }))
+  .handleAction(getMyExamListAsync.success, (state, { payload: { exams: examInfoList } }) => ({
+    ...state,
+    examInfoList,
+    getMyExamListSuccess: true,
+    getMyExamListError: null,
+  }))
+  .handleAction(getMyExamListAsync.failure, (state, { payload: getMyExamListError }) => ({
+    ...state,
+    getMyExamListSuccess: false,
+    getMyExamListError,
   }));
 
 export default survey;
