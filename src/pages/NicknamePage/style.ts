@@ -7,6 +7,7 @@ export const Body = styled.section`
   justify-content: center;
 
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
 
   & > :first-child {
     margin-bottom: 24px;
