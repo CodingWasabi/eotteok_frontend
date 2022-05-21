@@ -9,6 +9,7 @@ module.exports = merge(common, {
     hot: true,
     port: 3000,
     historyApiFallback: true,
+    allowedHosts: ['how-to-study.kro.kr'],
   },
   plugins: [
     new HtmlWebpackPlugin({
