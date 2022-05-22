@@ -8,8 +8,9 @@ import Text from '@/components/common/Text';
 import Button from '@/components/common/Button';
 import useWarngingExit from '@/hooks/useWarningExit';
 import AppLayout from '@/components/common/AppLayout';
-import event_img from '../../../public/images/event.png';
-import event_sample_img from '../../../public/images/event_sample.jpg';
+import event_img from '../../../public/images/event/event.png';
+import event_sample_img from '../../../public/images/event/event_sample.jpg';
+import banner from '../../../public/images/event/event_banner.png';
 import {
   Body,
   ExamInfoListWrapper,
@@ -72,6 +73,8 @@ const SurveyPage = () => {
             이벤트 응모하기
           </Button>
         </ButtonWrapper>
+        {/* 이벤트 배너 이미지 테스트 - 결과 페이지로 옮기기 */}
+        <img src={banner} style={{ width: '325px' }}></img>
         <ExamInfoListWrapper>
           <TextCenterWrapper>
             <Text fontSize={18} letterSpacing={-0.5}>
