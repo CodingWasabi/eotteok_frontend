@@ -11,7 +11,7 @@ export const Wrapper = styled.div<IInputBoxProps>`
   align-items: center;
   justify-content: center;
 
-  width: 325px;
+  width: 323px;
   height: 45px;
 
   background-color: ${Theme.B_1};
