@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { Theme } from '@/styles/Theme';
-
 export const Wrapper = styled.div`
   overflow: hidden;
 
