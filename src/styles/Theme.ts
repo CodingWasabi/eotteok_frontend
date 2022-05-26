@@ -1,6 +1,6 @@
 export const Theme = {
   // main
-  M_1: '#D9F2FC',
+  M_1: '#99E4FF',
   M_2: '#3FC06E',
   M_3: '#F95E64',
   M_4: '#FFAD72',
