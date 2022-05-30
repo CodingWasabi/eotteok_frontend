@@ -8,6 +8,7 @@ import { IsFilledType, ExamScheduleType, ExamInfoType, ExamInfoIdType, GetExamIn
 /**
  * 액션 타입
  */
+const RESET_SURVEY = 'survey/RESET_SURVEY';
 const HANDLE_ANSWER_LIST = 'survey/HANDLE_ANSWER_LIST';
 const UPDATE_IS_FILLED = 'survey/UPDATE_IS_FILLED';
 const UPDATE_EXAM_SCHEDULE = 'survey/UPDATE_EXAM_SCHEDULE';
@@ -26,6 +27,7 @@ export const [GET_EXAM_LIST, GET_EXAM_LIST_SUCCESS, GET_EXAM_LIST_FAILURE] =
 /**
  * 액션 생성 함수
  */
+export const resetSurvey = createAction(RESET_SURVEY)();
 export const handleAnswerList = createAction(HANDLE_ANSWER_LIST)<Array<number>>();
 export const updateIsFilled = createAction(UPDATE_IS_FILLED)<IsFilledType>();
 export const updateExamSchedule = createAction(UPDATE_EXAM_SCHEDULE)<ExamScheduleType>();

@@ -1,6 +1,7 @@
 import { createReducer } from 'typesafe-actions';
 
 import {
+  resetSurvey,
   handleAnswerList,
   updateIsFilled,
   updateExamSchedule,
@@ -44,6 +45,9 @@ const initialState: SurveyType = {
 };
 
 const survey = createReducer<SurveyType, SurveyAction>(initialState)
+  .handleAction(resetSurvey, () => ({
+    ...initialState,
+  }))
   .handleAction(handleAnswerList, (state, { payload: answerList }) => ({
     ...state,
     answerList,

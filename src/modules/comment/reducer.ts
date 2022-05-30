@@ -1,6 +1,6 @@
 import { createReducer } from 'typesafe-actions';
 
-import { changeComment, updateCommentInfo } from '@/modules/comment/actions';
+import { resetComment, changeComment, updateCommentInfo } from '@/modules/comment/actions';
 import { CommentType, CommentAction } from '@/modules/comment/types';
 
 const initialState = {
@@ -10,6 +10,9 @@ const initialState = {
 };
 
 const comment = createReducer<CommentType, CommentAction>(initialState)
+  .handleAction(resetComment, () => ({
+    ...initialState,
+  }))
   .handleAction(changeComment, (state, { payload: comment }) => ({
     ...state,
     comment,
