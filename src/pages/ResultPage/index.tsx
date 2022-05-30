@@ -10,12 +10,15 @@ import { loginPath } from '@/lib/constants';
 import setTime from '@/lib/util/setTime';
 import copyClipboard from '@/lib/util/copyClipboard';
 import { getPersonalCalendar, getComments, postComment } from '@/lib/api/calendar';
+import { resetMe } from '@/lib/api/me';
 
 import useMe from '@/hooks/useMe';
 import useComment from '@/hooks/useComment';
 import useCalendar from '@/hooks/useCalendar';
-import useCommentActions from '@/hooks/useCommentActions';
 import useCalendarActions from '@/hooks/useCalendarActions';
+import useCommentActions from '@/hooks/useCommentActions';
+import useNicknameActions from '@/hooks/useNicknameActions';
+import useSurveyActions from '@/hooks/useSurveyActions';
 
 import Calendar from '@/components/Calendar';
 
@@ -78,8 +81,10 @@ const ResultPage = () => {
 
   const { nickname, tendency, calendar, exams } = useCalendar();
   const { selectedCharacterNumber, comment } = useComment();
-  const { dispatchUpdateState, dispatchCalendar } = useCalendarActions();
-  const { updateComment } = useCommentActions();
+  const { dispatchResetCalendar, dispatchUpdateState, dispatchCalendar } = useCalendarActions();
+  const { dispatchResetComment, updateComment } = useCommentActions();
+  const { dispatchResetNickname } = useNicknameActions();
+  const { dispatchResetSurvey } = useSurveyActions();
 
   const { me: accountId } = useMe();
 
@@ -156,6 +161,32 @@ const ResultPage = () => {
       return;
     }
     window.location.href = loginPath;
+  };
+
+  const resetStore = () => {
+    dispatchResetCalendar();
+    dispatchResetComment();
+    dispatchResetNickname();
+    dispatchResetSurvey();
+  };
+
+  const onClickResetWithoutLogin = () => {
+    resetStore();
+    navigate('/');
+  };
+
+  const onClickResetWithLogin = async () => {
+    try {
+      const res = await resetMe();
+
+      if (res.status === 200) {
+        alert('초기화 되었습니다!');
+        resetStore();
+        navigate('/');
+      }
+    } catch (error) {
+      alert('에러가 발생했습니다. 잠시후 다시 시도해주세요!');
+    }
   };
 
   useEffect(() => {
@@ -351,7 +382,7 @@ const ResultPage = () => {
                 <Text color={Theme.B_1}>달력 공유해 보시지</Text>
               </Button>
             </ButtonWrapper>
-            <ResetText>초기화 하기</ResetText>
+            <ResetText onClick={accountId ? onClickResetWithLogin : onClickResetWithoutLogin}>초기화 하기</ResetText>
           </Body>
         </>
       )}
