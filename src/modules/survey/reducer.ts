@@ -1,6 +1,7 @@
 import { createReducer } from 'typesafe-actions';
 
 import {
+  resetSurvey,
   handleAnswerList,
   updateIsFilled,
   updateExamSchedule,
@@ -25,11 +26,11 @@ const initialState: SurveyType = {
   examInfoList: [],
 
   year: date.getFullYear(),
-  month: date.getMonth() + 1,
-  date: date.getDate(),
+  month: 6,
+  date: 1,
 
-  hour: date.getHours(),
-  minute: date.getMinutes(),
+  hour: 12,
+  minute: 0,
 
   prepareTime: 0,
 
@@ -44,6 +45,9 @@ const initialState: SurveyType = {
 };
 
 const survey = createReducer<SurveyType, SurveyAction>(initialState)
+  .handleAction(resetSurvey, () => ({
+    ...initialState,
+  }))
   .handleAction(handleAnswerList, (state, { payload: answerList }) => ({
     ...state,
     answerList,
@@ -72,10 +76,10 @@ const survey = createReducer<SurveyType, SurveyAction>(initialState)
     ...state,
     name: '',
     year: new Date().getFullYear(),
-    month: new Date().getMonth() + 1,
-    date: new Date().getDate(),
-    hour: new Date().getHours(),
-    minute: new Date().getMinutes(),
+    month: 6,
+    date: 1,
+    hour: 12,
+    minute: 0,
     prepareTime: 0,
     isFilledDate: false,
     isFilledTime: false,

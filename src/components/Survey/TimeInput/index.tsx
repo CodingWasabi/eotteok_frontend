@@ -13,7 +13,7 @@ const TimeInput = () => {
     updateExamScheduleInfo({ target: 'dailyQuota', value: Number(e.target.value.replace(/[^0-9]/g, '')) });
   };
 
-  return <StyledInput type="text" value={dailyQuota} onChange={onChangeValue} placeholder="숫자를 입력하세요" />;
+  return <StyledInput type="text" value={dailyQuota || ''} onChange={onChangeValue} placeholder="숫자를 입력하세요" />;
 };
 
 export default TimeInput;

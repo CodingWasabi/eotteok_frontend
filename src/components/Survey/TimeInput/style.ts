@@ -10,6 +10,6 @@ export const StyledInput = styled.input`
   background-color: ${Theme.M_1};
 
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   letter-spacing: -0.5px;
 `;

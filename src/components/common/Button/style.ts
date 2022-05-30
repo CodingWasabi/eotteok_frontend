@@ -13,12 +13,22 @@ export const Wrapper = styled.button<IButtonProps>`
 
   font-weight: 400;
   font-size: 24px;
+  color: ${Theme.T_1};
 
   border-radius: 100px;
 
   & > :first-child {
     margin-right: 19px;
   }
+
+  ${(props) =>
+    props.variant === 'disabled' &&
+    css`
+      width: 151px;
+      height: 50px;
+
+      background-color: ${Theme.B_5};
+    `}
 
   ${(props) =>
     props.variant === 'previous' &&
@@ -88,7 +98,5 @@ export const Wrapper = styled.button<IButtonProps>`
       height: 50px;
 
       background-color: ${Theme.M_4};
-
-      color: ${Theme.T_1};
     `}
 `;

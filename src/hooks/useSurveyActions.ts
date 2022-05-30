@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
 import {
+  resetSurvey,
   handleAnswerList,
   updateIsFilled,
   updateExamSchedule,
@@ -16,6 +17,7 @@ import {
 const useSurveyActions = () => {
   const dispatch = useDispatch();
 
+  const dispatchResetSurvey = useCallback(() => dispatch(resetSurvey()), [dispatch]);
   const onClickAnswer = useCallback((answerList) => dispatch(handleAnswerList(answerList)), [dispatch]);
   const dispatchIsFilled = useCallback((isFilled) => dispatch(updateIsFilled(isFilled)), [dispatch]);
   const updateExamScheduleInfo = useCallback((schedule) => dispatch(updateExamSchedule(schedule)), [dispatch]);
@@ -26,6 +28,7 @@ const useSurveyActions = () => {
   const dispatchExamList = useCallback((examList) => dispatch(updateExamList(examList)), [dispatch]);
 
   return {
+    dispatchResetSurvey,
     onClickAnswer,
     dispatchIsFilled,
     updateExamScheduleInfo,

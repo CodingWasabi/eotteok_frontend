@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { Wrapper } from './style';
 
 export interface IButtonProps {
-  variant: 'previous' | 'next' | 'add' | 'edit' | 'start' | 'M_2' | 'M_4';
+  variant: 'disabled' | 'previous' | 'next' | 'add' | 'edit' | 'start' | 'M_2' | 'M_4';
   isFilled?: boolean;
   children: React.ReactNode;
   onClick?: () => void;

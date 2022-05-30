@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { Theme } from '@/styles/Theme';
-
 export const Wrapper = styled.div<{ backgroundColor: string }>`
   position: absolute;
   top: 0;
@@ -22,7 +20,6 @@ export const Wrapper = styled.div<{ backgroundColor: string }>`
   height: 429px;
 
   & > img {
-    width: 141px;
     height: 108px;
 
     margin-top: 38px;

@@ -21,7 +21,7 @@ export const TimePickerWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 
-  width: 325px;
+  width: 323px;
   height: 166px;
 
   border-radius: 12px;

@@ -169,11 +169,11 @@ const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelection
                     나는 하루에...
                   </Text>
                   <FlexWrapper>
-                    <Text fontSize={18} letterSpacing={-0.5}>
+                    <Text fontSize={20} letterSpacing={-0.5}>
                       최대
                     </Text>
                     <TimeInput />
-                    <Text fontSize={18} letterSpacing={-0.5}>
+                    <Text fontSize={20} letterSpacing={-0.5}>
                       시간
                     </Text>
                   </FlexWrapper>
@@ -208,7 +208,7 @@ const QuestionSelection = ({ progressStep, setProgressStep }: IQuestionSelection
           </Button>
         ) : (
           <>
-            <Button variant="previous" onClick={onClickPrev}>
+            <Button variant={progressStep === 0 ? 'disabled' : 'previous'} onClick={onClickPrev}>
               이전
             </Button>
             <Button variant="next" isFilled={isClickedAnswer || !!dailyQuota} onClick={onClickNext}>

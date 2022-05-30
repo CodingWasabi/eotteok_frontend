@@ -10,12 +10,15 @@ import { loginPath } from '@/lib/constants';
 import setTime from '@/lib/util/setTime';
 import copyClipboard from '@/lib/util/copyClipboard';
 import { getPersonalCalendar, getComments, postComment } from '@/lib/api/calendar';
+import { resetMe } from '@/lib/api/me';
 
 import useMe from '@/hooks/useMe';
 import useComment from '@/hooks/useComment';
 import useCalendar from '@/hooks/useCalendar';
-import useCommentActions from '@/hooks/useCommentActions';
 import useCalendarActions from '@/hooks/useCalendarActions';
+import useCommentActions from '@/hooks/useCommentActions';
+import useNicknameActions from '@/hooks/useNicknameActions';
+import useSurveyActions from '@/hooks/useSurveyActions';
 
 import Calendar from '@/components/Calendar';
 
@@ -52,16 +55,23 @@ import {
   ExamTimeWrapper,
 } from './style';
 
-const setHasComments = (calendar: Array<ICalendar>, selectedMonth: number) => {
+const checkHasComments = (calendar: Array<ICalendar>, selectedMonth: number) => {
   if (calendar.length < 0) return false;
+
+  let hasComments: boolean = false;
 
   calendar.forEach((item: ICalendar) => {
     if (item.month === selectedMonth) {
-      return !!item.commentCount;
+      if (item.commentCount) {
+        hasComments = true;
+        return true;
+      }
+      hasComments = false;
+      return false;
     }
   });
 
-  return false;
+  return hasComments;
 };
 
 const ResultPage = () => {
@@ -71,8 +81,10 @@ const ResultPage = () => {
 
   const { nickname, tendency, calendar, exams } = useCalendar();
   const { selectedCharacterNumber, comment } = useComment();
-  const { dispatchUpdateState, dispatchCalendar } = useCalendarActions();
-  const { updateComment } = useCommentActions();
+  const { dispatchResetCalendar, dispatchUpdateState, dispatchCalendar } = useCalendarActions();
+  const { dispatchResetComment, updateComment } = useCommentActions();
+  const { dispatchResetNickname } = useNicknameActions();
+  const { dispatchResetSurvey } = useSurveyActions();
 
   const { me: accountId } = useMe();
 
@@ -80,7 +92,7 @@ const ResultPage = () => {
   const [selectedMonth, setSelectedMonth] = useState<number>(Number(getMoment.format('M')));
 
   const [clickedDate, setClickedDate] = useState<number>(0);
-  const [hasComments, __] = useState<boolean>(setHasComments(calendar, selectedMonth));
+  const [hasComments, setHasComments] = useState<boolean>(checkHasComments(calendar, selectedMonth));
   const [clickedExamList, setClickedExamList] = useState<Array<IDailyToDos>>([]);
   const [requestDate, setRequestDate] = useState<string>('');
 
@@ -151,6 +163,32 @@ const ResultPage = () => {
     window.location.href = loginPath;
   };
 
+  const resetStore = () => {
+    dispatchResetCalendar();
+    dispatchResetComment();
+    dispatchResetNickname();
+    dispatchResetSurvey();
+  };
+
+  const onClickResetWithoutLogin = () => {
+    resetStore();
+    navigate('/');
+  };
+
+  const onClickResetWithLogin = async () => {
+    try {
+      const res = await resetMe();
+
+      if (res.status === 200) {
+        alert('초기화 되었습니다!');
+        resetStore();
+        navigate('/');
+      }
+    } catch (error) {
+      alert('에러가 발생했습니다. 잠시후 다시 시도해주세요!');
+    }
+  };
+
   useEffect(() => {
     return () => {
       dispatchUpdateState({ target: 'postCalendarError', value: null });
@@ -170,6 +208,10 @@ const ResultPage = () => {
       dispatch(dispatchCalendar(calendarFromServer));
     }
   }, [calendarFromServer]);
+
+  useEffect(() => {
+    setHasComments(checkHasComments(calendar, selectedMonth));
+  }, [selectedMonth]);
 
   useEffect(() => {
     if (!calendar) return;
@@ -244,7 +286,16 @@ const ResultPage = () => {
                 <CommentInputWrapper hasComments={hasComments}>
                   {clickedExamList.length > 0 && (
                     <>
+                      <ClickedDateWrapper>
+                        <Date>{clickedDate} 일</Date> 공부 이 정도는 해야지?
+                      </ClickedDateWrapper>
                       <DailyExamItemListWrapper>
+                        <ExamTimeWrapper>
+                          <ExamTimeTitle />
+                          {clickedExamList.map(({ name, color, hour }, index) => (
+                            <ExamTime key={`${name}/${index}`} color={color} exam={name} time={hour} />
+                          ))}
+                        </ExamTimeWrapper>
                         <ClickedDateWrapper>
                           <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
                         </ClickedDateWrapper>
@@ -259,15 +310,6 @@ const ResultPage = () => {
                           />
                         ))}
                       </DailyExamItemListWrapper>
-                      <ClickedDateWrapper>
-                        <Date>{clickedDate} 일</Date> 공부 이 정도는 해야지?
-                      </ClickedDateWrapper>
-                      <ExamTimeWrapper>
-                        <ExamTimeTitle />
-                        {clickedExamList.map(({ name, color, hour }, index) => (
-                          <ExamTime key={`${name}/${index}`} color={color} exam={name} time={hour} />
-                        ))}
-                      </ExamTimeWrapper>
                     </>
                   )}
                   {comments && comments?.length > 0 && (
@@ -300,14 +342,6 @@ const ResultPage = () => {
               <CommentInputWrapper hasComments={true}>
                 {clickedExamList.length > 0 && (
                   <>
-                    <DailyExamItemListWrapper>
-                      <ClickedDateWrapper>
-                        <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
-                      </ClickedDateWrapper>
-                      {clickedExamList.map(({ name, d_day, color, month, date }, index) => (
-                        <DailyExamItem key={index} name={name} d_day={d_day} color={color} month={month} date={date} />
-                      ))}
-                    </DailyExamItemListWrapper>
                     <ClickedDateWrapper>
                       <Date>{clickedDate} 일</Date> 공부 이 정도는 해야지?
                     </ClickedDateWrapper>
@@ -317,6 +351,14 @@ const ResultPage = () => {
                         <ExamTime key={`${name}/${index}`} color={color} exam={name} time={hour} />
                       ))}
                     </ExamTimeWrapper>
+                    <DailyExamItemListWrapper>
+                      <ClickedDateWrapper>
+                        <Date>{clickedDate} 일</Date> 기준으로 얼마나 남았지?
+                      </ClickedDateWrapper>
+                      {clickedExamList.map(({ name, d_day, color, month, date }, index) => (
+                        <DailyExamItem key={index} name={name} d_day={d_day} color={color} month={month} date={date} />
+                      ))}
+                    </DailyExamItemListWrapper>
                   </>
                 )}
                 <ClickedDateWrapper>
@@ -340,7 +382,7 @@ const ResultPage = () => {
                 <Text color={Theme.B_1}>달력 공유해 보시지</Text>
               </Button>
             </ButtonWrapper>
-            <ResetText>초기화 하기</ResetText>
+            <ResetText onClick={accountId ? onClickResetWithLogin : onClickResetWithoutLogin}>초기화 하기</ResetText>
           </Body>
         </>
       )}
