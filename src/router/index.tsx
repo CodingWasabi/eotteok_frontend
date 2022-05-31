@@ -10,6 +10,7 @@ const ExamEditPage = loadable(() => import('@/pages/ExamEditPage'));
 const LoadingPage = loadable(() => import('@/pages/LoadingPage'));
 const ErrorPage = loadable(() => import('@/pages/ErrorPage'));
 const NotFoundPage = loadable(() => import('@/pages/NotFoundPage'));
+const EventPage = loadable(() => import('@/pages/EventPage'));
 
 const Router = () => {
   return (
@@ -23,6 +24,7 @@ const Router = () => {
         <Route path="/exam/edit" element={<ExamEditPage />} />
         <Route path="/loading" element={<LoadingPage />} />
         <Route path="/error" element={<ErrorPage />} />
+        <Route path="/event" element={<EventPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

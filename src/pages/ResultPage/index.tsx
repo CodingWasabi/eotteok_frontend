@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import moment, { Moment } from 'moment';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import useSWR from 'swr';
 import { useDispatch } from 'react-redux';
 
@@ -382,7 +382,10 @@ const ResultPage = () => {
                 <Text color={Theme.B_1}>달력 공유해 보시지</Text>
               </Button>
             </ButtonWrapper>
-            <ResetText onClick={accountId ? onClickResetWithLogin : onClickResetWithoutLogin}>초기화 하기</ResetText>
+            <Link to="/event">
+              <Button variant="M_2">이벤트 응모하러 가기</Button>
+            </Link>
+            {/* <ResetText onClick={accountId ? onClickResetWithLogin : onClickResetWithoutLogin}>초기화 하기</ResetText> */}
           </Body>
         </>
       )}

@@ -55,8 +55,7 @@ const SurveyPage = () => {
     }
 
     if (postCalendarError) {
-      dispatchTendency(36);
-      navigate('/result');
+      navigate('/error');
     }
   }, [calendar, postCalendarError]);
 

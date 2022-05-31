@@ -1,6 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import useCalendarActions from '@/hooks/useCalendarActions';
+import useCommentActions from '@/hooks/useCommentActions';
+import useNicknameActions from '@/hooks/useNicknameActions';
+import useSurveyActions from '@/hooks/useSurveyActions';
+
 import Button from '@/components/common/Button';
 
 import AppLayout from '@/components/common/AppLayout';
@@ -11,7 +16,19 @@ import { Body } from './style';
 const ErrorPage = () => {
   const navigate = useNavigate();
 
-  const onClickPreviousPage = () => navigate('/');
+  const { dispatchResetCalendar } = useCalendarActions();
+  const { dispatchResetComment } = useCommentActions();
+  const { dispatchResetNickname } = useNicknameActions();
+  const { dispatchResetSurvey } = useSurveyActions();
+
+  const onClickPreviousPage = () => {
+    dispatchResetCalendar();
+    dispatchResetComment();
+    dispatchResetNickname();
+    dispatchResetSurvey();
+
+    navigate('/');
+  };
 
   return (
     <AppLayout>
