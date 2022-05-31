@@ -23,7 +23,6 @@ import {
   SampleWrapper,
   StyledFileInput,
   StyledLabel,
-  Img,
 } from './style';
 
 const SurveyPage = () => {
@@ -108,10 +107,10 @@ const SurveyPage = () => {
               감사 이벤트를 준비했습니다!😆
             </Text>
             <ImgWrapper>
-              <Img src="/images/event/event.png" alt="event" />
+              <img src="/images/event/event.png" alt="event" />
             </ImgWrapper>
             <SampleWrapper>
-              <Img src="/images/event/event_sample.jpg" alt="event_sample" />
+              <img src="/images/event/event_sample.jpg" alt="event_sample" />
             </SampleWrapper>
             <Text fontSize={18} letterSpacing={-0.5}>
               어떡하지 서비스를 이용한 화면을 SNS에 자유롭게 올려주시면
@@ -143,8 +142,6 @@ const SurveyPage = () => {
             이벤트 응모하기
           </Button>
         </ButtonWrapper>
-        {/* 이벤트 배너 이미지 테스트 - 결과 페이지로 옮기기 */}
-        <Img src="/images/event/event_banner.png" width="325px" alt="event_banner"></Img>
         <ExamInfoListWrapper>
           <TextCenterWrapper>
             <Text fontSize={18} letterSpacing={-0.5}>

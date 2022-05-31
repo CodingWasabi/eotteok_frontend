@@ -53,6 +53,7 @@ import {
   ClickedDateWrapper,
   Date,
   ExamTimeWrapper,
+  Img,
 } from './style';
 
 const checkHasComments = (calendar: Array<ICalendar>, selectedMonth: number) => {
@@ -383,7 +384,7 @@ const ResultPage = () => {
               </Button>
             </ButtonWrapper>
             <Link to="/event">
-              <Button variant="M_2">이벤트 응모하러 가기</Button>
+              <Img src="/images/event/event_banner.png" width={325} alt="event_banner"></Img>
             </Link>
             {/* <ResetText onClick={accountId ? onClickResetWithLogin : onClickResetWithoutLogin}>초기화 하기</ResetText> */}
           </Body>

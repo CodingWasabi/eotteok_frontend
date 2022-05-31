@@ -126,7 +126,3 @@ export const SampleWrapper = styled.div`
     margin-bottom: 10px;
   }
 `;
-
-export const Img = styled.img<{ width?: string }>`
-  width: ${({ width }) => width}px;
-`;
