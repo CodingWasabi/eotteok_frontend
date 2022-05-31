@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
-import useNickname from '@/hooks/useNickname';
-import Icon from '@/components/Icon';
+import { registerEvent, uploadImage } from '@/lib/api/event';
+
+import useWarngingExit from '@/hooks/useWarningExit';
+
 import Text from '@/components/common/Text';
 import Button from '@/components/common/Button';
-import useWarngingExit from '@/hooks/useWarningExit';
 import AppLayout from '@/components/common/AppLayout';
-import event_img from '../../../public/images/event/event.png';
-import event_sample_img from '../../../public/images/event/event_sample.jpg';
-import banner from '../../../public/images/event/event_banner.png';
+
+import { RegisterEventProps } from '@/types/event';
+
 import {
   Body,
   ExamInfoListWrapper,
@@ -23,18 +23,77 @@ import {
   SampleWrapper,
   StyledFileInput,
   StyledLabel,
+  Img,
 } from './style';
 
 const SurveyPage = () => {
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  // const { dispatchTendency } = useCalendarActions();
+  const navigate = useNavigate();
+
+  const [info, setInfo] = useState<RegisterEventProps>({
+    name: '',
+    phoneNumber: '',
+    img: '',
+  });
 
   useWarngingExit();
-  const nickname = 'dummy';
-  function handleChange(e: any) {
-    console.log(`Selected file - ${e.target.files[0].name}`);
-  }
+
+  const onChangeInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setInfo((prev: RegisterEventProps) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const onChangeImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target;
+
+    if (files) {
+      const formData = new FormData();
+      const image = files[0];
+
+      formData.append('image', image);
+
+      try {
+        const { link } = await uploadImage(formData);
+
+        if (link) {
+          setInfo((prev: RegisterEventProps) => ({
+            ...prev,
+            [name]: link,
+          }));
+
+          alert('이미지 업로드에 성공했습니다!');
+        }
+      } catch (error) {
+        alert('오류가 발생했습니다. 새로 고침후 다시 시도해주세요.');
+      }
+    }
+  };
+
+  const isFilled = () => {
+    type keyType = keyof typeof info;
+    return Object.keys(info).every((key) => info[key as keyType] !== '');
+  };
+
+  const onClickSubmit = async () => {
+    try {
+      const { status } = await registerEvent({ ...info });
+
+      if (status === 1) {
+        alert('이벤트 응모에 되었습니다!');
+      }
+
+      if (status === 2) {
+        alert('이벤트 중복 참여가 불가능합니다!');
+      }
+
+      navigate('/result');
+    } catch (error) {
+      alert('이벤트 응모에 실패했습니다. 잠시 후 다시 시도해주세요!');
+    }
+  };
 
   return (
     <AppLayout>
@@ -49,10 +108,10 @@ const SurveyPage = () => {
               감사 이벤트를 준비했습니다!😆
             </Text>
             <ImgWrapper>
-              <img src={event_img} />
+              <Img src="/images/event/event.png" alt="event" />
             </ImgWrapper>
             <SampleWrapper>
-              <img src={event_sample_img} />
+              <Img src="/images/event/event_sample.jpg" alt="event_sample" />
             </SampleWrapper>
             <Text fontSize={18} letterSpacing={-0.5}>
               어떡하지 서비스를 이용한 화면을 SNS에 자유롭게 올려주시면
@@ -60,21 +119,32 @@ const SurveyPage = () => {
             </Text>
           </TextWrapper>
           <Text>[이벤트 정보 입력]</Text>
-          <StyledInput placeholder={'이름'} />
-          <StyledInput placeholder={'상품 수령 연락처'} />
+          <StyledInput name="name" value={info.name} onChange={onChangeInfo} placeholder="이름" />
+          <StyledInput
+            name="phoneNumber"
+            value={info.phoneNumber}
+            onChange={onChangeInfo}
+            placeholder="상품 수령 연락처"
+          />
           <Text fontSize={18} letterSpacing={-0.5}>
             SNS에 공유한 화면을 캡쳐해서 올려주세요!
           </Text>
-          <StyledFileInput id="event_file" type="file" onChange={handleChange} />
-          {/* <StyledLabel htmlFor="event_file">파일 선택</StyledLabel> */}
+          <StyledLabel htmlFor="event_file">파일 선택</StyledLabel>
+          <StyledFileInput
+            type="file"
+            id="event_file"
+            name="img"
+            accept="image/png, image/jpeg, image/jpg"
+            onChange={onChangeImg}
+          />
         </ContentsWrapper>
         <ButtonWrapper>
-          <Button variant={'add'} isFilled={nickname ? true : false}>
+          <Button variant="add" isFilled={isFilled()} onClick={onClickSubmit}>
             이벤트 응모하기
           </Button>
         </ButtonWrapper>
         {/* 이벤트 배너 이미지 테스트 - 결과 페이지로 옮기기 */}
-        <img src={banner} style={{ width: '325px' }}></img>
+        <Img src="/images/event/event_banner.png" width="325px" alt="event_banner"></Img>
         <ExamInfoListWrapper>
           <TextCenterWrapper>
             <Text fontSize={18} letterSpacing={-0.5}>

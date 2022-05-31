@@ -34,16 +34,22 @@ export const StyledInput = styled.input`
 `;
 
 export const StyledFileInput = styled.input`
-  //
+  display: none;
 `;
+
 export const StyledLabel = styled.label`
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   border: solid 1px ${Theme.T_2};
   border-radius: 12px;
 
-  width: 325px;
+  width: 100px;
   height: 45px;
 
-  padding-left: 16px;
   font-size: 18px;
   letter-spacing: -0.5px;
 `;
@@ -119,4 +125,8 @@ export const SampleWrapper = styled.div`
     margin-top: -10px;
     margin-bottom: 10px;
   }
+`;
+
+export const Img = styled.img<{ width?: string }>`
+  width: ${({ width }) => width}px;
 `;
