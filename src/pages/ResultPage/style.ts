@@ -18,10 +18,14 @@ export const Body = styled.section`
   & > :first-child {
     margin: 270px 0 30px 0;
   }
+
+  & > :last-child {
+    margin-bottom: 30px;
+  }
 `;
 
 export const ButtonWrapper = styled.div`
-  margin-bottom: 120px;
+  margin-bottom: 30px;
 `;
 
 export const ResetText = styled.span`
