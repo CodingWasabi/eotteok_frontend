@@ -34,8 +34,9 @@ const ErrorPage = () => {
     <AppLayout>
       <Body>
         <img src={require('../../../public/images/tendency/36.png')} alt="error" />
-        <Text fontSize={32}>소화할 수 없는 일정이에요 !</Text> <br />
-        <Text fontSize={32}>다시 등록해주세요 !</Text>
+        <Text fontSize={26}>기간 내에 다 끝마칠 수 없어요.</Text>
+        <Text fontSize={26}>공부 양을 줄이거나</Text>
+        <Text fontSize={26}>하루 공부 가능 시간을 늘리세요 !</Text>
         <Button variant="previous" onClick={onClickPreviousPage}>
           메인 페이지로
         </Button>
