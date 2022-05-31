@@ -118,3 +118,7 @@ export const Date = styled.span`
 export const ExamTimeWrapper = styled.div`
   margin-bottom: 50px;
 `;
+
+export const Img = styled.img<{ width?: number }>`
+  width: ${({ width }) => width}px;
+`;
