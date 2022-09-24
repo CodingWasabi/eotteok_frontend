@@ -1,5 +1,6 @@
 @font-face {
   font-family: 'NanumAmSeuTeReuDam';
-  src: url('./fonts/NanumAmSeuTeReuDam.woff2') format('woff2'), url('./fonts/NanumAmSeuTeReuDam.woff') format('woff'),
-    url('./fonts//NanumAmSeuTeReuDam.ttf') format('truetype');
+  font-display: swap;
+  src: local('NanumAmSeuTeReuDam'), url('./fonts/NanumAmSeuTeReuDam.woff2') format('woff2'),
+    url('./fonts/NanumAmSeuTeReuDam.woff') format('woff'), url('./fonts/NanumAmSeuTeReuDam.ttf') format('truetype');
 }
